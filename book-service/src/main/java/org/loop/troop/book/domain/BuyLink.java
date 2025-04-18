@@ -6,16 +6,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * The type Buy link.
+ *
+ * @author alex
+ */
 @Embeddable
 @Getter
 @Setter
 @NoArgsConstructor
-public class BuyLink {
+class BuyLink {
 
-    @Column(name = "vendor", nullable = false)
-    private String vendor;
+	@Column(name = "vendor", nullable = false)
+	private String vendor;
 
-    @Column(name = "url", nullable = false)
-    private String url;
+	@Column(name = "url", nullable = false)
+	private String url;
+
 }
-

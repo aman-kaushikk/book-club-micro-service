@@ -10,27 +10,36 @@ import lombok.ToString;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * The type Base entity.
+ *
+ * @author alex
+ */
 @MappedSuperclass
 @Getter
 @Setter
 @ToString
 abstract class BaseEntity {
 
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+	@Column(name = "created_at", updatable = false)
+	private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+	@Column(name = "updated_at")
+	private LocalDateTime updatedAt;
 
-    @Column(name = "created_by")
-    private UUID createdBy;
+	@Column(name = "created_by")
+	private UUID createdBy;
 
-    @Column(name = "updated_by")
-    private UUID updatedBy;
+	@Column(name = "updated_by")
+	private UUID updatedBy;
 
-    @PreUpdate
-    @SuppressWarnings("unused")
-    public void preUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
+	/**
+	 * Pre update.
+	 */
+	@PreUpdate
+	@SuppressWarnings("unused")
+	public void preUpdate() {
+		this.updatedAt = LocalDateTime.now();
+	}
+
 }

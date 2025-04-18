@@ -4,6 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.util.UUID;
 
+/**
+ * The type Review.
+ *
+ * @author alex
+ */
 @Entity
 @Table(name = "reviews")
 @Getter
@@ -12,22 +17,23 @@ import java.util.UUID;
 @AllArgsConstructor
 class Review {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private UUID id;
 
-    private UUID userId;
+	private UUID userId;
 
-    private String userProfileUrl;
+	private String userProfileUrl;
 
-    @Column(columnDefinition = "TEXT")
-    private String reviewDescription;
+	@Column(columnDefinition = "TEXT")
+	private String reviewDescription;
 
-    private Integer stars;
+	private Integer stars;
 
-    private Boolean inappropriate = false;
+	private Boolean inappropriate = false;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id", nullable = false)
-    private Book book;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "book_id", nullable = false)
+	private Book book;
+
 }
