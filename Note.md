@@ -6,7 +6,7 @@ To fix javadoc
 ```shell
 ./mvnw javadoc:fix
 ```
-Generate Java doc
+Generate Java jar with java doc
 ```shell
 ./mvnw clean install javadoc:javadoc -DskipTests
 ```
