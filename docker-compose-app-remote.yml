@@ -1,0 +1,20 @@
+services:
+
+  book-service:
+    image: alexmercer1234556789/book-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_DATASOURCE_URL: jdbc:postgresql://book-service-db:5432/book-db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SERVER_PORT: 4001
+    ports:
+      - "4001:4001"
+    restart: always
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    external: true
