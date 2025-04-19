@@ -1,6 +1,6 @@
 create table book_buy_links (
     book_id uuid not null,
-    url varchar(255) not null,
+    url TEXT not null,
     vendor varchar(255) not null
 );
 

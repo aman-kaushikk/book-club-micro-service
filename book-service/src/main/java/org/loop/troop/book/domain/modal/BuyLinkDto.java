@@ -10,6 +10,7 @@ import lombok.Data;
  */
 @Data
 public class BuyLinkDto {
+
 	@NotBlank(message = "${link.url.missing}")
 	private String url;
 

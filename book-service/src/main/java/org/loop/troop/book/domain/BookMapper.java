@@ -28,7 +28,7 @@ interface BookMapper {
 	 * @param bookDto the book dto
 	 * @return the book
 	 */
-	@Mapping(target = "target.rating", ignore = true)
+	@Mapping(target = "rating", ignore = true)
 	Book toEntity(BookDto bookDto);
 
 	/**
@@ -50,7 +50,6 @@ interface BookMapper {
 	 * @param review the review
 	 * @return the review dto
 	 */
-	@Mapping(target = "target.book", ignore = true)
 	ReviewDto toDto(Review review);
 
 	/**
@@ -58,28 +57,28 @@ interface BookMapper {
 	 * @param dto the dto
 	 * @return the review
 	 */
+	@Mapping(target = "book", ignore = true)
 	Review toEntity(ReviewDto dto);
 
 	/**
-	 * To dto buy link list list.
+	 * To dto buy link list.
 	 * @param buyLinks the buy links
 	 * @return the list
 	 */
 	List<BuyLinkDto> toDtoBuyLinkList(List<BuyLink> buyLinks);
 
 	/**
-	 * To entity buy link list list.
+	 * To entity buy link list.
 	 * @param buyLinks the buy links
 	 * @return the list
 	 */
 	List<BuyLink> toEntityBuyLinkList(List<BuyLinkDto> buyLinks);
 
 	/**
-	 * To dto review list list.
+	 * To dto review list.
 	 * @param reviews the reviews
 	 * @return the list
 	 */
-	@Mapping(target = "target.book", ignore = true)
 	List<ReviewDto> toDtoReviewList(List<Review> reviews);
 
 	/**
@@ -87,22 +86,18 @@ interface BookMapper {
 	 * @param reviews the reviews
 	 * @return the list
 	 */
+	@Mapping(target = "book", ignore = true)
 	List<Review> toEntityReviewList(List<ReviewDto> reviews);
 
-	/**
-	 * Calculate rating.
-	 * @param book the book
-	 * @param bookDto the book dto
-	 */
 	@AfterMapping
-	default void calculateRating(Book book, @MappingTarget BookDto bookDto) {
-		List<Review> reviews = book.getReviews();
+	default void calculateEntityRating(BookDto bookdto, @MappingTarget Book book) {
+		List<ReviewDto> reviews = bookdto.getReviews();
 		if (reviews != null && !reviews.isEmpty()) {
-			double avg = reviews.stream().mapToDouble(Review::getStar).average().orElse(0.0);
-			bookDto.setRating(Math.min(avg, 5.0));
+			double avg = reviews.stream().mapToDouble(ReviewDto::getStar).average().orElse(0.0);
+			book.setRating(Math.min(avg, 5.0));
 		}
 		else {
-			bookDto.setRating(0.0);
+			book.setRating(0.0);
 		}
 	}
 

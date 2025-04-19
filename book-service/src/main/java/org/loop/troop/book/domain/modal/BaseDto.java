@@ -1,6 +1,7 @@
 package org.loop.troop.book.domain.modal;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -14,11 +15,14 @@ import java.util.UUID;
 @Data
 public class BaseDto {
 
-	@NotBlank(message = "Creation timestamp is mandatory")
+	@NotNull(message = "${creation.timestamp}")
 	private LocalDateTime createdAt;
-	@NotBlank(message = "Created by is mandatory")
+
+	@NotNull(message = "${created.by}")
 	private UUID createdBy;
+
 	private LocalDateTime updatedAt;
+
 	private UUID updatedBy;
 
 }
