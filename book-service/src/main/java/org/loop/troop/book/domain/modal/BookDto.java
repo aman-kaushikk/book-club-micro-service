@@ -1,8 +1,12 @@
 package org.loop.troop.book.domain.modal;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,22 +21,30 @@ public class BookDto extends BaseDto {
 
 	private UUID bookId;
 
+	@NotBlank(message = "${title.missing}")
 	private String title;
 
+	@NotBlank(message = "${image.missing}")
 	private String url;
 
+	@NotBlank(message = "${author.missing}")
 	private String author;
 
+	@NotBlank(message = "${description.missing}")
 	private String description;
 
-	private List<BuyLinkDto> buyLinks;
+	@NotEmpty(message = "At least one buy link is required")
+	@Valid
+	private List<BuyLinkDto> buyLinks = new ArrayList<>();
 
-	private List<ReviewDto> reviews;
+	@Valid
+	private List<ReviewDto> reviews = new ArrayList<>();
 
-	private List<UUID> clubIds;
+	private List<UUID> clubIds = new ArrayList<>();
 
 	private Double rating;
 
+	@NotBlank(message = "${pageCount.missing}")
 	private Integer pageCount;
 
 }

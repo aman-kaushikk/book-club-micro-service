@@ -1,8 +1,7 @@
 package org.loop.troop.book.domain.modal;
 
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * The type Buy link dto.
@@ -11,9 +10,10 @@ import lombok.NoArgsConstructor;
  */
 @Data
 public class BuyLinkDto {
-
+	@NotBlank(message = "${link.url.missing}")
 	private String url;
 
+	@NotBlank(message = "#{link.vendor.missing}")
 	private String vendor;
 
 }

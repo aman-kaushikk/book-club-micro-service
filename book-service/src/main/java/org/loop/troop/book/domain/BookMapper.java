@@ -18,7 +18,6 @@ interface BookMapper {
 
 	/**
 	 * To dto book dto.
-	 *
 	 * @param book the book
 	 * @return the book dto
 	 */
@@ -26,7 +25,6 @@ interface BookMapper {
 
 	/**
 	 * To entity book.
-	 *
 	 * @param bookDto the book dto
 	 * @return the book
 	 */
@@ -35,7 +33,6 @@ interface BookMapper {
 
 	/**
 	 * To dto buy link dto.
-	 *
 	 * @param buyLink the buy link
 	 * @return the buy link dto
 	 */
@@ -43,7 +40,6 @@ interface BookMapper {
 
 	/**
 	 * To entity buy link.
-	 *
 	 * @param dto the dto
 	 * @return the buy link
 	 */
@@ -51,7 +47,6 @@ interface BookMapper {
 
 	/**
 	 * To dto review dto.
-	 *
 	 * @param review the review
 	 * @return the review dto
 	 */
@@ -60,7 +55,6 @@ interface BookMapper {
 
 	/**
 	 * To entity review.
-	 *
 	 * @param dto the dto
 	 * @return the review
 	 */
@@ -68,7 +62,6 @@ interface BookMapper {
 
 	/**
 	 * To dto buy link list list.
-	 *
 	 * @param buyLinks the buy links
 	 * @return the list
 	 */
@@ -76,7 +69,6 @@ interface BookMapper {
 
 	/**
 	 * To entity buy link list list.
-	 *
 	 * @param buyLinks the buy links
 	 * @return the list
 	 */
@@ -84,7 +76,6 @@ interface BookMapper {
 
 	/**
 	 * To dto review list list.
-	 *
 	 * @param reviews the reviews
 	 * @return the list
 	 */
@@ -93,7 +84,6 @@ interface BookMapper {
 
 	/**
 	 * To entity review list.
-	 *
 	 * @param reviews the reviews
 	 * @return the list
 	 */
@@ -101,7 +91,6 @@ interface BookMapper {
 
 	/**
 	 * Calculate rating.
-	 *
 	 * @param book the book
 	 * @param bookDto the book dto
 	 */
