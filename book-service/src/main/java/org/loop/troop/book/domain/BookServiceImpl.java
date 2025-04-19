@@ -33,7 +33,11 @@ public class BookServiceImpl implements BookService {
 				BookDto bookDto = service.validateAndRegister(url);
 				log.debug("Book dto: {}", bookDto);
 				Book book = bookMapper.toEntity(bookDto);
-				bookRepository.save(book);
+				if(bookRepository.existsByTitle(book.getTitle())){
+					throw new ServiceException("Book found with given title: "+book.getTitle());
+				}
+				book = bookRepository.save(book);
+				bookDto.setBookId(book.getBookId());
 				return bookDto;
 			}
 		}
