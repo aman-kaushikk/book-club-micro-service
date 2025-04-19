@@ -3,6 +3,7 @@ package org.loop.troop.book.domain.modal;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -44,7 +45,7 @@ public class BookDto extends BaseDto {
 
 	private Double rating;
 
-	@NotBlank(message = "${pageCount.missing}")
+	@NotNull(message = "${pageCount.missing}")
 	private Integer pageCount;
 
 }
