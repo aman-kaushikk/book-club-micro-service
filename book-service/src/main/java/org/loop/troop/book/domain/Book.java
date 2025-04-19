@@ -11,7 +11,7 @@ import java.util.UUID;
 
 /**
  * The type Book.
- * 
+ *
  * @author alex
  */
 @Entity

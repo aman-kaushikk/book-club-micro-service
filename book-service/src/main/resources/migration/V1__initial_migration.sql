@@ -26,7 +26,7 @@ create table books (
 
 create table reviews (
     inappropriate boolean,
-    stars integer,
+    star double precision,
     book_id uuid not null,
     id uuid not null,
     user_id uuid,

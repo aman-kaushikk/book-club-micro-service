@@ -28,7 +28,7 @@ class Review {
 	@Column(columnDefinition = "TEXT")
 	private String reviewDescription;
 
-	private Integer stars;
+	private Double star;
 
 	private Boolean inappropriate = false;
 
