@@ -1,6 +1,6 @@
 create table book_buy_links (
     book_id uuid not null,
-    url varchar(255) not null,
+    url TEXT not null,
     vendor varchar(255) not null
 );
 
@@ -26,7 +26,7 @@ create table books (
 
 create table reviews (
     inappropriate boolean,
-    stars integer,
+    star double precision,
     book_id uuid not null,
     id uuid not null,
     user_id uuid,

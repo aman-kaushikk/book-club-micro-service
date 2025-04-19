@@ -29,12 +29,21 @@
     <properties>
         <java.version>21</java.version>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
-        <org.projectlombok.version>1.18.16</org.projectlombok.version>
+        <org.projectlombok.version>1.18.32</org.projectlombok.version>
         <dockerUserName>alexmercer1234556789</dockerUserName>
         <dockerImageName>${dockerUserName}/${project.artifactId}</dockerImageName>
         <jib-maven-plugin.version>3.4.4</jib-maven-plugin.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.17.2</version>
+        </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
@@ -107,6 +116,12 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                            <version>${org.projectlombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
                         </path>
                         <path>
                             <groupId>org.springframework.boot</groupId>
