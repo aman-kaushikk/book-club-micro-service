@@ -3,6 +3,7 @@ package org.loop.troop.book.domain;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.loop.troop.book.domain.modal.BookDto;
+import org.loop.troop.book.domain.modal.BuyLinkDto;
 import org.loop.troop.book.domain.service.Vendor;
 import org.loop.troop.book.domain.service.BookScraperService;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,13 @@ public class BookServiceImpl implements BookService {
 		}
 		String message = String.format("No Support fo Current vendor: %s", vendor.name());
 		throw new ServiceException(message);
+	}
+
+
+
+	@Override
+	public List<BuyLinkDto> getAllBuyLink() {
+		return bookMapper.toDtoBuyLinkList(bookRepository.getAllBuyLink());
 	}
 
 }
