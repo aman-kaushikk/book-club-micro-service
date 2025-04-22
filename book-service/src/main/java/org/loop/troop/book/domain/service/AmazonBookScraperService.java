@@ -133,12 +133,13 @@ class AmazonBookScraperService extends BookScraperService {
 		bookDto.setUpdatedAt(baseDto.getUpdatedAt());
 		bookDto.setPageCount(Integer.valueOf(extractBookInfo.get("pageCount")));
 		BuyLinkDto buyLinkDto = new BuyLinkDto();
-        try {
-            url = Utility.sanitizeUrl(url);
-        } catch (URISyntaxException e) {
-            throw new ServiceException("Cannot Sanitize Url : " + e.getMessage());
-        }
-        buyLinkDto.setUrl(url);
+		try {
+			url = Utility.sanitizeUrl(url);
+		}
+		catch (URISyntaxException e) {
+			throw new ServiceException("Cannot Sanitize Url : " + e.getMessage());
+		}
+		buyLinkDto.setUrl(url);
 		buyLinkDto.setVendor(Vendor.AMAZON.name());
 		bookDto.setBuyLinks(Collections.singletonList(buyLinkDto));
 		return bookDto;
