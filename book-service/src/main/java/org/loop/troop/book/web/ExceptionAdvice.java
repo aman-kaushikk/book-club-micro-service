@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Map;
-import java.util.Objects;
 
 import static org.loop.troop.book.web.ExceptionHandlerDSL.createProblemDetail;
+import static org.loop.troop.book.web.MessageResolver.getMessage;
 
 @RestControllerAdvice
 public class ExceptionAdvice {
@@ -37,7 +37,7 @@ public class ExceptionAdvice {
                     .respondWith(ExceptionAdvice::MethodArgumentNotValidException);
             handler.on(ConstraintViolationException.class)
                     .respondWith(ExceptionAdvice::MethodArgumentNotValidException);
-            // handling default exceptoin
+            // handling default exception
             handler.defaultResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
         });
     }
@@ -49,10 +49,10 @@ public class ExceptionAdvice {
                     .stream()
                     .map(fieldError -> Map.of(
                             "field", fieldError.getField(),
-                            "message", Objects.requireNonNull(fieldError.getDefaultMessage())
+                            "message", getMessage(fieldError.getDefaultMessage(),fieldError.getArguments())
                     ))
                     .toList();
-            return createProblemDetail(HttpStatus.BAD_REQUEST,throwable.getMessage(),throwable,errors);
+            return createProblemDetail(HttpStatus.BAD_REQUEST,"Validation Error - Cannot validate request object",throwable,errors);
 
         }else{
             return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, throwable.getMessage());
@@ -62,12 +62,20 @@ public class ExceptionAdvice {
     private static ProblemDetail handleConstraintViolationException(Throwable throwable) {
         if (throwable instanceof ConstraintViolationException constraintViolationException) {
             var errors = constraintViolationException.getConstraintViolations().stream()
-                    .map(violation -> Map.of(
-                            "field", violation.getPropertyPath().toString(),
-                            "message", violation.getMessage()
-                    ))
+                    .map(violation -> {
+                        String field = violation.getPropertyPath().toString();
+                        String messageCode = violation.getMessage(); // Usually a message key
+                        Object[] args = violation.getConstraintDescriptor().getAttributes()
+                                .values()
+                                .toArray(); // Pull arguments like min, max, etc.
+
+                        return Map.of(
+                                "field", field,
+                                "message", MessageResolver.getMessage(messageCode, args)
+                        );
+                    })
                     .toList();
-            return createProblemDetail(HttpStatus.BAD_REQUEST, throwable.getMessage(), throwable, errors);
+            return createProblemDetail(HttpStatus.BAD_REQUEST, "Validation Error - Cannot validate request object", throwable, errors);
         } else {
             return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, throwable.getMessage());
         }

@@ -1,5 +1,6 @@
 package org.loop.troop.book.domain.modal;
 
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -23,6 +24,7 @@ public class CreateNewReview {
 
 	@NotNull(message = "review.star.blank")
 	@PositiveOrZero(message = "review.star.number")
+	@Max(value = 5L,message = "review.start.limit")
 	private Double star;
 
 	@NotNull(message = "review.book-id.blank")

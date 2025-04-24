@@ -72,7 +72,9 @@ class ExceptionHandlerDSL {
         }
 
         if (status.is5xxServerError()) {
-            log.error("Server error occurred", ex); // Log the stack trace
+            log.error("CRITICAL EXCEPTION: Server error occurred", ex); // Log the stack trace
+        }else{
+            log.info("HANDLED EXCEPTION: Server error occurred", ex);
         }
 
         return problemDetail;
