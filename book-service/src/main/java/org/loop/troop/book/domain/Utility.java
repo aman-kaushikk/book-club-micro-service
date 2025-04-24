@@ -50,23 +50,20 @@ public class Utility {
 
 	/**
 	 * Gets pageable.
-	 *
-	 * @param page          the page
-	 * @param size          the size
-	 * @param sortBy        the sort by
+	 * @param page the page
+	 * @param size the size
+	 * @param sortBy the sort by
 	 * @param sortDirection the sort direction
 	 * @return the pageable
 	 */
-	public  static Pageable getPageable(int page, int size, String sortBy, String sortDirection) {
+	public static Pageable getPageable(int page, int size, String sortBy, String sortDirection) {
 		sortDirection = sortDirection != null ? sortDirection : "ASC";
 		Sort sort = Objects.isNull(sortBy) ? Sort.unsorted() : Sort.by(sortBy).ascending();
-		if(!sortDirection.equalsIgnoreCase("ASC")){
+		if (!sortDirection.equalsIgnoreCase("ASC")) {
 			sort.descending();
 		}
 		int DEFAULT_SIZE = 10;
-		return PageRequest.of(Math.max(page, 0),
-				size > 0 ? size : DEFAULT_SIZE, sort);
+		return PageRequest.of(Math.max(page, 0), size > 0 ? size : DEFAULT_SIZE, sort);
 	}
-
 
 }

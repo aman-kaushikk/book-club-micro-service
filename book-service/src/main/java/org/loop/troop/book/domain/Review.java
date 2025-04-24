@@ -2,6 +2,8 @@ package org.loop.troop.book.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -31,6 +33,8 @@ class Review {
 	private Double star;
 
 	private Boolean inappropriate = false;
+
+	private LocalDateTime createdAt;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "book_id", nullable = false)

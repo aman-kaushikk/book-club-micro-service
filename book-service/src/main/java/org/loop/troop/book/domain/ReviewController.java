@@ -19,22 +19,20 @@ import static org.springframework.http.HttpStatus.OK;
 @RequiredArgsConstructor
 public class ReviewController {
 
-    private final ReviewService reviewService;
+	private final ReviewService reviewService;
 
-    @PostMapping("/add")
-    ResponseEntity<Void> registerNewBook(@RequestBody @Valid CreateNewReview createNewReview) {
-        reviewService.createNewReview(createNewReview);
-        return ResponseEntity.ok().build();
-    }
-    @GetMapping
-    ResponseEntity<PageDto<ReviewDto>> getReviewDto(
-            @RequestParam UUID bookId,
-            @PositiveOrZero@RequestParam int page,
-            @Positive @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "star") String sortBy,
-            @RequestParam(defaultValue = "ASC") String sortDirection) {
-        var allBook = reviewService.getReviews(bookId,page, size, sortBy, sortDirection);
-        return ResponseEntity.status(OK).body(allBook);
-    }
+	@PostMapping("/add")
+	ResponseEntity<Void> registerNewBook(@RequestBody @Valid CreateNewReview createNewReview) {
+		reviewService.createNewReview(createNewReview);
+		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping
+	ResponseEntity<PageDto<ReviewDto>> getReviewDto(@RequestParam UUID bookId, @PositiveOrZero @RequestParam int page,
+			@Positive @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "star") String sortBy,
+			@RequestParam(defaultValue = "ASC") String sortDirection) {
+		var allBook = reviewService.getReviews(bookId, page, size, sortBy, sortDirection);
+		return ResponseEntity.status(OK).body(allBook);
+	}
 
 }

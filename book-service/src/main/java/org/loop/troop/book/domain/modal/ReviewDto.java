@@ -3,6 +3,7 @@ package org.loop.troop.book.domain.modal;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -24,5 +25,7 @@ public class ReviewDto implements Serializable {
 	private boolean inappropriate;
 
 	private Double star;
+
+	private LocalDateTime createdAt;
 
 }

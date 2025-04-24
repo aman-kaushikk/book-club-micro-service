@@ -26,7 +26,8 @@ public class ReviewServiceImpl implements ReviewService {
 	private final BookRepository bookRepository;
 
 	private final BookMapper bookMapper;
-	private final PageMapper<Review,ReviewDto> reviewPageMapper;
+
+	private final PageMapper<Review, ReviewDto> reviewPageMapper;
 
 	@Override
 	public void createNewReview(@Valid CreateNewReview createNewReview) {
@@ -44,8 +45,8 @@ public class ReviewServiceImpl implements ReviewService {
 	@Cacheable(value = "reviews", key = "#bookId + '-' + #page + '-' + #size + '-' + #sortBy + '-' + #sortDirection")
 	public PageDto<ReviewDto> getReviews(UUID bookId, int page, int size, String sortBy, String sortDirection) {
 		Pageable pageable = getPageable(page, size, sortBy, sortDirection);
-		Page<Review> reviews = bookRepository.findByBookId(bookId, pageable);
-		return reviewPageMapper.convertToDto(reviews,bookMapper::toDtoReviewList);
+		Page<Review> reviews = bookRepository.findByReviewByBookId(bookId, pageable);
+		return reviewPageMapper.convertToDto(reviews, bookMapper::toDtoReviewList);
 	}
 
 }
