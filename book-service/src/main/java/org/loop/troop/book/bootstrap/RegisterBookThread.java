@@ -8,21 +8,30 @@ import org.loop.troop.book.domain.service.Vendor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+/**
+ * The type Register book thread.
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j
 class RegisterBookThread {
 
-    private final BookService bookService;
+	private final BookService bookService;
 
-    @Async
-    void registerBook(BookRequest request) {
-        log.info("THREAD NAME : {}",Thread.currentThread().getName());
-        try {
-            bookService.register(request.getUrl(), Vendor.valueOf(request.getVendor()));
-            log.info("Registered book from URL: {}", request.getUrl());
-        } catch (Exception e) {
-            log.error("Failed to register book: {} | Error: {}", request.getUrl(), e.getMessage());
-        }
-    }
+	/**
+	 * Register book.
+	 * @param request the request
+	 */
+	@Async
+	void registerBook(BookRequest request) {
+		log.info("THREAD NAME : {}", Thread.currentThread().getName());
+		try {
+			bookService.register(request.getUrl(), Vendor.valueOf(request.getVendor()));
+			log.info("Registered book from URL: {}", request.getUrl());
+		}
+		catch (Exception e) {
+			log.error("Failed to register book: {} | Error: {}", request.getUrl(), e.getMessage());
+		}
+	}
+
 }

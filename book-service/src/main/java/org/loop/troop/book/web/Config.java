@@ -24,7 +24,10 @@ public class Config {
 		return Vendor.AMAZON;
 	}
 
-
+	/**
+	 * Task executor executor.
+	 * @return the executor
+	 */
 	@Bean
 	public Executor taskExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
@@ -35,4 +38,5 @@ public class Config {
 		executor.initialize();
 		return executor;
 	}
+
 }
