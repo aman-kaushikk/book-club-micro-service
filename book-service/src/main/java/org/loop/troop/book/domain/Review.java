@@ -34,7 +34,7 @@ class Review {
 
 	private Boolean inappropriate = false;
 
-	private LocalDateTime createdAt;
+	private LocalDateTime createdAt = LocalDateTime.now();
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "book_id", nullable = false)
