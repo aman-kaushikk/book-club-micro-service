@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -132,6 +133,12 @@ class AmazonBookScraperService extends BookScraperService {
 		bookDto.setUpdatedAt(baseDto.getUpdatedAt());
 		bookDto.setPageCount(Integer.valueOf(extractBookInfo.get("pageCount")));
 		BuyLinkDto buyLinkDto = new BuyLinkDto();
+		try {
+			url = Utility.sanitizeUrl(url);
+		}
+		catch (URISyntaxException e) {
+			throw new ServiceException("Cannot Sanitize Url : " + e.getMessage());
+		}
 		buyLinkDto.setUrl(url);
 		buyLinkDto.setVendor(Vendor.AMAZON.name());
 		bookDto.setBuyLinks(Collections.singletonList(buyLinkDto));

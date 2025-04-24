@@ -32,5 +32,6 @@ create table reviews (
     user_id uuid,
     review_description TEXT,
     user_profile_url varchar(255),
+    created_at timestamp(6),
     primary key (id)
 );

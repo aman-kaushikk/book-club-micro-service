@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +19,7 @@ import java.util.UUID;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class BookDto extends BaseDto {
+public class BookDto extends BaseDto implements Serializable {
 
 	private UUID bookId;
 
