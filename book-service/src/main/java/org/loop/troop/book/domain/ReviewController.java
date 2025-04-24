@@ -28,7 +28,8 @@ public class ReviewController {
 	}
 
 	@GetMapping
-	ResponseEntity<PageDto<ReviewDto>> getReviewByBookId(@RequestParam UUID bookId, @PositiveOrZero @RequestParam(defaultValue = "0") int page,
+	ResponseEntity<PageDto<ReviewDto>> getReviewByBookId(@RequestParam UUID bookId,
+			@PositiveOrZero @RequestParam(defaultValue = "0") int page,
 			@Positive @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "star") String sortBy,
 			@RequestParam(defaultValue = "ASC") String sortDirection) {
 		var allBook = reviewService.getReviews(bookId, page, size, sortBy, sortDirection);

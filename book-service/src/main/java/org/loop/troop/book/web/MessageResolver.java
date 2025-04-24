@@ -13,22 +13,24 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class MessageResolver {
 
-    private static MessageSource messageSource;
+	private static MessageSource messageSource;
 
-    @Autowired
-    public MessageResolver(MessageSource messageSource) {
-        MessageResolver.messageSource = messageSource;
-    }
+	@Autowired
+	public MessageResolver(MessageSource messageSource) {
+		MessageResolver.messageSource = messageSource;
+	}
 
-    public static String getMessage(String key, Object[] args, Locale locale) {
-        try {
-            return messageSource.getMessage(key, args, locale);
-        } catch (NoSuchMessageException ex) {
-            return key;
-        }
-    }
+	public static String getMessage(String key, Object[] args, Locale locale) {
+		try {
+			return messageSource.getMessage(key, args, locale);
+		}
+		catch (NoSuchMessageException ex) {
+			return key;
+		}
+	}
 
-    public static String getMessage(String key,Object [] args) {
-        return getMessage(key, args, LocaleContextHolder.getLocale());
-    }
+	public static String getMessage(String key, Object[] args) {
+		return getMessage(key, args, LocaleContextHolder.getLocale());
+	}
+
 }
