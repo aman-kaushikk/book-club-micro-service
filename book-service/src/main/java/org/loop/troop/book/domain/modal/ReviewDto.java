@@ -2,6 +2,7 @@ package org.loop.troop.book.domain.modal;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -10,7 +11,7 @@ import java.util.UUID;
  * @author alex
  */
 @Data
-public class ReviewDto {
+public class ReviewDto implements Serializable {
 
 	private UUID id;
 
