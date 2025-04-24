@@ -1,6 +1,5 @@
 package org.loop.troop.book.domain;
 
-
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,12 +32,11 @@ interface BookRepository extends JpaRepository<Book, UUID> {
 
 	/**
 	 * Find by book id page.
-	 *
-	 * @param bookId   the book id
+	 * @param bookId the book id
 	 * @param pageable the pageable
 	 * @return the page
 	 */
 	@Query("SELECT r FROM Review r WHERE r.book.bookId = :bookId")
-	Page<Review> findByBookId(@Param("bookId") UUID bookId,
-							  Pageable pageable);
+	Page<Review> findByReviewByBookId(@Param("bookId") UUID bookId, Pageable pageable);
+
 }

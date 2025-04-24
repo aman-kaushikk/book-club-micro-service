@@ -46,7 +46,7 @@ class BookController {
 	 * @return the paged book dto
 	 */
 	@GetMapping
-	ResponseEntity<PageDto<BookDto>> getPagedBookDto(@PositiveOrZero @RequestParam(defaultValue = "0") int page,
+	ResponseEntity<PageDto<BookDto>> getBooksWithPaging(@PositiveOrZero @RequestParam(defaultValue = "0") int page,
 			@Positive @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "bookId") String sortBy,
 			@RequestParam(defaultValue = "ASC") String sortDirection) {
 		var allBook = bookService.getAllBook(page, size, sortBy, sortDirection);
