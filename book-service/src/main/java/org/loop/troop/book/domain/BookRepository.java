@@ -1,11 +1,14 @@
 package org.loop.troop.book.domain;
 
+
+import io.lettuce.core.dynamic.annotation.Param;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -13,8 +16,29 @@ import java.util.UUID;
  */
 @Repository
 interface BookRepository extends JpaRepository<Book, UUID> {
-    boolean existsByTitle(String title);
 
-    @Query("SELECT bl FROM Book b JOIN b.buyLinks bl")
-    List<BuyLink> getAllBuyLink();
+	/**
+	 * Exists by title boolean.
+	 * @param title the title
+	 * @return the boolean
+	 */
+	boolean existsByTitle(String title);
+
+	/**
+	 * Gets all buy link.
+	 * @return the all buy link
+	 */
+	@Query("SELECT bl FROM Book b JOIN b.buyLinks bl")
+	List<BuyLink> getAllBuyLink();
+
+	/**
+	 * Find by book id page.
+	 *
+	 * @param bookId   the book id
+	 * @param pageable the pageable
+	 * @return the page
+	 */
+	@Query("SELECT r FROM Review r WHERE r.book.bookId = :bookId")
+	Page<Review> findByBookId(@Param("bookId") UUID bookId,
+							  Pageable pageable);
 }

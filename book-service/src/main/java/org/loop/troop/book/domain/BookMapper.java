@@ -17,11 +17,25 @@ import java.util.List;
 interface BookMapper {
 
 	/**
+	 * To dto book list.
+	 * @param books the books
+	 * @return the list
+	 */
+	List<BookDto> toDtoBookList(List<Book> books);
+
+	/**
+	 * To entity book list.
+	 * @param bookDtoList the book dto list
+	 * @return the list
+	 */
+	List<Book> toEntityBookList(List<BookDto> bookDtoList);
+
+	/**
 	 * To dto book dto.
 	 * @param book the book
 	 * @return the book dto
 	 */
-	BookDto toDto(Book book);
+	BookDto toBookDto(Book book);
 
 	/**
 	 * To entity book.
@@ -29,28 +43,28 @@ interface BookMapper {
 	 * @return the book
 	 */
 	@Mapping(target = "rating", ignore = true)
-	Book toEntity(BookDto bookDto);
+	Book toBookEntity(BookDto bookDto);
 
 	/**
 	 * To dto buy link dto.
 	 * @param buyLink the buy link
 	 * @return the buy link dto
 	 */
-	BuyLinkDto toDto(BuyLink buyLink);
+	BuyLinkDto toBuyLinkDto(BuyLink buyLink);
 
 	/**
 	 * To entity buy link.
 	 * @param dto the dto
 	 * @return the buy link
 	 */
-	BuyLink toEntity(BuyLinkDto dto);
+	BuyLink toBuyLinkEntity(BuyLinkDto dto);
 
 	/**
 	 * To dto review dto.
 	 * @param review the review
 	 * @return the review dto
 	 */
-	ReviewDto toDto(Review review);
+	ReviewDto toReviewDtoDto(Review review);
 
 	/**
 	 * To entity review.
@@ -58,7 +72,7 @@ interface BookMapper {
 	 * @return the review
 	 */
 	@Mapping(target = "book", ignore = true)
-	Review toEntity(ReviewDto dto);
+	Review toReviewEntity(ReviewDto dto);
 
 	/**
 	 * To dto buy link list.
@@ -86,9 +100,13 @@ interface BookMapper {
 	 * @param reviews the reviews
 	 * @return the list
 	 */
-	@Mapping(target = "book", ignore = true)
 	List<Review> toEntityReviewList(List<ReviewDto> reviews);
 
+	/**
+	 * Calculate entity rating.
+	 * @param bookdto the bookdto
+	 * @param book the book
+	 */
 	@AfterMapping
 	default void calculateEntityRating(BookDto bookdto, @MappingTarget Book book) {
 		List<ReviewDto> reviews = bookdto.getReviews();

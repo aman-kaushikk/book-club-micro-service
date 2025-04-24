@@ -8,12 +8,36 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.FIELD, ElementType.PARAMETER})
+/**
+ * The interface Valid enum.
+ */
+@Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = EnumValidator.class)
 public @interface ValidEnum {
-    String message() default "Invalid value";
-    Class<?>[] groups() default {};
-    Class<? extends Payload>[] payload() default {};
-    Class<? extends Enum<?>> enumClass();
+
+	/**
+	 * Message string.
+	 * @return the string
+	 */
+	String message() default "Invalid value";
+
+	/**
+	 * Groups class [ ].
+	 * @return the class [ ]
+	 */
+	Class<?>[] groups() default {};
+
+	/**
+	 * Payload class [ ].
+	 * @return the class [ ]
+	 */
+	Class<? extends Payload>[] payload() default {};
+
+	/**
+	 * Enum class class.
+	 * @return the class
+	 */
+	Class<? extends Enum<?>> enumClass();
+
 }
