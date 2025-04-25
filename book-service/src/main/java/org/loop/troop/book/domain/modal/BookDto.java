@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.loop.troop.book.domain.BookStatus;
+import org.loop.troop.book.web.validator.ValidEnum;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,19 +25,19 @@ public class BookDto extends BaseDto implements Serializable {
 
 	private UUID bookId;
 
-	@NotBlank(message = "${title.missing}")
+	@NotBlank(message = "${book.title.missing}")
 	private String title;
 
 	@NotBlank(message = "${image.missing}")
 	private String url;
 
-	@NotBlank(message = "${author.missing}")
+	@NotBlank(message = "${book.author.missing}")
 	private String author;
 
-	@NotBlank(message = "${description.missing}")
+	@NotBlank(message = "${book.description.missing}")
 	private String description;
 
-	@NotEmpty(message = "At least one buy link is required")
+	@NotEmpty(message = "${book.buy-link.min.length}")
 	@Valid
 	private List<BuyLinkDto> buyLinks = new ArrayList<>();
 
@@ -44,9 +46,20 @@ public class BookDto extends BaseDto implements Serializable {
 
 	private List<UUID> clubIds = new ArrayList<>();
 
+	private List<String> genres = new ArrayList<>();
+
+	private List<String> tags = new ArrayList<>();
+
+	@NotNull(message = "${book.rating.missing}")
 	private Double rating;
 
-	@NotNull(message = "${pageCount.missing}")
+	@NotNull(message = "${book.page-count.missing}")
 	private Integer pageCount;
+
+	@ValidEnum(enumClass = BookStatus.class, message = "${book.status.match}")
+	@NotBlank(message = "${book.status.missing}")
+	private String bookStatus;
+
+	private Integer bookmarked;
 
 }

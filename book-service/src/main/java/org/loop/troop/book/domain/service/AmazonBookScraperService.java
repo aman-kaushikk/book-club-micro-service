@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.loop.troop.book.domain.BookStatus;
 import org.loop.troop.book.domain.ServiceException;
 import org.loop.troop.book.domain.UrlScrapingException;
 import org.loop.troop.book.domain.Utility;
@@ -39,8 +40,9 @@ class AmazonBookScraperService extends BookScraperService {
 
 	/**
 	 * Instantiates a new Amazon book scraper service.
+	 *
 	 * @param validator the validator
-	 * @param vendor the vendor
+	 * @param vendor    the vendor
 	 */
 	public AmazonBookScraperService(Validator validator, @Qualifier("amazonVendor") Vendor vendor) {
 		super(validator, vendor);
@@ -74,6 +76,7 @@ class AmazonBookScraperService extends BookScraperService {
 	 * <p>
 	 * extractBookInfo.
 	 * </p>
+	 *
 	 * @param amazonUrl a {@link java.lang.String} object
 	 * @return a {@link java.util.Map} object
 	 * @throws IOException the io exception
@@ -142,6 +145,9 @@ class AmazonBookScraperService extends BookScraperService {
 		buyLinkDto.setUrl(url);
 		buyLinkDto.setVendor(Vendor.AMAZON.name());
 		bookDto.setBuyLinks(Collections.singletonList(buyLinkDto));
+		bookDto.setRating(0d);
+		bookDto.setTags(List.of("amazon-book"));
+		bookDto.setBookStatus(BookStatus.UNKNOWN.name());
 		return bookDto;
 	}
 

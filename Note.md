@@ -27,3 +27,33 @@ private final CacheManager cacheManager;
 var cache = cacheManager.getCache("allBookClubs");
 cache.get(key, PageDto.class)
 ```
+
+Sql query
+```postgres-sql
+-- drop all table
+DO $$ DECLARE
+    r RECORD;
+BEGIN
+    FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
+        EXECUTE 'DROP TABLE IF EXISTS public.' || quote_ident(r.tablename) || ' CASCADE';
+    END LOOP;
+END $$;
+
+-- clean all table data
+DO $$ DECLARE
+    r RECORD;
+BEGIN
+    FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
+        EXECUTE 'TRUNCATE TABLE public.' || quote_ident(r.tablename) || ' CASCADE';
+    END LOOP;
+END $$;
+
+-- view current tables
+select * from "public".book;
+select * from "public".book_buy_link;
+select * from "public".book_club;
+select * from "public".book_tag;
+select * from "public".book_genre;
+select * from "public".review;
+
+```
