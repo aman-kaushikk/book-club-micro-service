@@ -15,10 +15,10 @@ import java.util.UUID;
 @Data
 public class BaseDto {
 
-	@NotNull(message = "${creation.timestamp}")
+	@NotNull(message = "{creation.timestamp.null}")
 	private LocalDateTime createdAt;
 
-	@NotNull(message = "${created.by}")
+	@NotNull(message = "{created.by.null}")
 	private UUID createdBy;
 
 	private LocalDateTime updatedAt;

@@ -11,10 +11,11 @@ import org.loop.troop.book.web.validator.ValidEnum;
 @Data
 public class BookRequest {
 
-	@NotBlank(message = "${book.url.missing}")
+	@NotBlank(message = "{book.url.missing}")
 	private String url;
 
-	@ValidEnum(enumClass = Vendor.class, message = "${invalid.vendor}")
+	@ValidEnum(enumClass = Vendor.class, message = "{book.vendor.invalid}")
+	@NotBlank(message = "book.vendor.missing")
 	private String vendor;
 
 }

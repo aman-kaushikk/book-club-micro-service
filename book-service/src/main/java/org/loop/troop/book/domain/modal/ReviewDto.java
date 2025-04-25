@@ -20,26 +20,26 @@ public class ReviewDto implements Serializable {
 
 	private UUID id;
 
-	@NotNull(message = "${review.user-id.null}")
+	@NotNull(message = "{review.user-id.null}")
 	private UUID userId;
 
-	@NotBlank(message = "${review.user-profile.missing}")
+	@NotBlank(message = "{review.user-profile.missing}")
 	private String userProfileUrl;
 
-	@NotBlank(message = "${review.description.missing}")
+	@NotBlank(message = "{review.description.missing}")
 	private String reviewDescription;
 
-	@NotBlank(message = "${review.title.missing}")
+	@NotBlank(message = "{review.title.missing}")
 	private String reviewTitle;
 
 	private boolean inappropriate;
 
-	@NotNull(message = "${review.star.null}")
-	@PositiveOrZero(message = "${review.star.number}")
-	@Max(value = 5L, message = "${review.start.limit}")
+	@NotNull(message = "{review.star.null}")
+	@PositiveOrZero(message = "{review.star.number}")
+	@Max(value = 5L, message = "{review.start.limit}")
 	private Double star;
 
-	@NotNull(message = "${review.created-at.null}")
+	@NotNull(message = "{review.created-at.null}")
 	private LocalDateTime createdAt;
 
 }

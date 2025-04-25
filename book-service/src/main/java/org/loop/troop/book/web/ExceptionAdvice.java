@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Map;
+import java.util.Objects;
 
 import static org.loop.troop.book.web.ExceptionHandlerDSL.createProblemDetail;
 import static org.loop.troop.book.web.MessageResolver.getMessage;
@@ -57,8 +58,7 @@ public class ExceptionAdvice {
 			var errors = methodArgumentNotValidException.getBindingResult()
 				.getFieldErrors()
 				.stream()
-				.map(fieldError -> Map.of("field", fieldError.getField(), "message",
-						getMessage(fieldError.getDefaultMessage(), fieldError.getArguments())))
+				.map(fieldError -> Map.of("field", fieldError.getField(), "message", Objects.requireNonNull(fieldError.getDefaultMessage())))
 				.toList();
 			return createProblemDetail(HttpStatus.BAD_REQUEST, "Validation Error - Cannot validate request object",
 					throwable, errors);

@@ -11,10 +11,10 @@ import lombok.Data;
 @Data
 public class BuyLinkDto {
 
-	@NotBlank(message = "${link.url.missing}")
+	@NotBlank(message = "{link.url.missing}")
 	private String url;
 
-	@NotBlank(message = "#{link.vendor.missing}")
+	@NotBlank(message = "{link.vendor.missing}")
 	private String vendor;
 
 }

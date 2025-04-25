@@ -25,19 +25,19 @@ public class BookDto extends BaseDto implements Serializable {
 
 	private UUID bookId;
 
-	@NotBlank(message = "${book.title.missing}")
+	@NotBlank(message = "{book.title.missing}")
 	private String title;
 
-	@NotBlank(message = "${image.missing}")
+	@NotBlank(message = "{book.image-url.missing}")
 	private String url;
 
-	@NotBlank(message = "${book.author.missing}")
+	@NotBlank(message = "{book.author.missing}")
 	private String author;
 
-	@NotBlank(message = "${book.description.missing}")
+	@NotBlank(message = "{book.description.missing}")
 	private String description;
 
-	@NotEmpty(message = "${book.buy-link.min.length}")
+	@NotEmpty(message = "{book.buy-link.min.length}")
 	@Valid
 	private List<BuyLinkDto> buyLinks = new ArrayList<>();
 
@@ -50,14 +50,14 @@ public class BookDto extends BaseDto implements Serializable {
 
 	private List<String> tags = new ArrayList<>();
 
-	@NotNull(message = "${book.rating.missing}")
+	@NotNull(message = "{book.rating.missing}")
 	private Double rating;
 
-	@NotNull(message = "${book.page-count.missing}")
+	@NotNull(message = "{book.page-count.missing}")
 	private Integer pageCount;
 
-	@ValidEnum(enumClass = BookStatus.class, message = "${book.status.match}")
-	@NotBlank(message = "${book.status.missing}")
+	@ValidEnum(enumClass = BookStatus.class, message = "{book.status.match}")
+	@NotBlank(message = "{book.status.missing}")
 	private String bookStatus;
 
 	private Integer bookmarked;

@@ -15,25 +15,25 @@ import java.util.UUID;
 @Data
 public class CreateNewReview {
 
-	@NotNull(message = "${review.user-id.null}")
+	@NotNull(message = "{review.user-id.null}")
 	private UUID userId;
 
-	@NotBlank(message = "${review.user-profile.missing}")
-	@URL(message = "${review.user-profile.url.valid}")
+	@NotBlank(message = "{review.user-profile.missing}")
+	@URL(message = "{review.user-profile.url.valid}")
 	private String userProfileUrl;
 
-	@NotBlank(message = "${review.description.missing}")
+	@NotBlank(message = "{review.description.missing}")
 	private String reviewDescription;
 
-	@NotNull(message = "${review.star.null}")
-	@PositiveOrZero(message = "${review.star.number}")
-	@Max(value = 5L, message = "${review.start.limit}")
-	private Double star;
+	@NotNull(message = "{review.star.null}")
+	@PositiveOrZero(message = "{review.star.number}")
+	@Max(value = 5L, message = "{review.start.limit}")
+	private Long star;
 
-	@NotBlank(message = "${review.title.missing}")
+	@NotBlank(message = "{review.title.missing}")
 	private String reviewTitle;
 
-	@NotNull(message = "$review.book-id.missing}")
+	@NotNull(message = "{review.book-id.missing}")
 	private UUID bookId;
 
 	/**
@@ -45,7 +45,7 @@ public class CreateNewReview {
 		reviewDto.setUserId(this.userId);
 		reviewDto.setUserProfileUrl(this.userProfileUrl);
 		reviewDto.setReviewDescription(this.reviewDescription);
-		reviewDto.setStar(this.star);
+		reviewDto.setStar(Double.valueOf(this.star));
 		reviewDto.setReviewTitle(reviewTitle);
 		return reviewDto;
 	}
