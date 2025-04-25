@@ -60,7 +60,7 @@ public class Utility {
 		sortDirection = sortDirection != null ? sortDirection : "ASC";
 		Sort sort = Objects.isNull(sortBy) ? Sort.unsorted() : Sort.by(sortBy).ascending();
 		if (!sortDirection.equalsIgnoreCase("ASC")) {
-			sort.descending();
+			sort = sort.descending();
 		}
 		int DEFAULT_SIZE = 10;
 		return PageRequest.of(Math.max(page, 0), size > 0 ? size : DEFAULT_SIZE, sort);

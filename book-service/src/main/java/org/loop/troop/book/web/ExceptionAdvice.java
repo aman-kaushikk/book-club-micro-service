@@ -74,13 +74,7 @@ public class ExceptionAdvice {
 			var errors = constraintViolationException.getConstraintViolations().stream().map(violation -> {
 				String field = violation.getPropertyPath().toString();
 				String messageCode = violation.getMessage(); // Usually a message key
-				Object[] args = violation.getConstraintDescriptor().getAttributes().values().toArray(); // Pull
-																										// arguments
-																										// like
-																										// min,
-																										// max,
-																										// etc.
-
+				Object[] args = violation.getConstraintDescriptor().getAttributes().values().toArray();
 				return Map.of("field", field, "message", MessageResolver.getMessage(messageCode, args));
 			}).toList();
 			return createProblemDetail(HttpStatus.BAD_REQUEST, "Validation Error - Cannot validate request object",
