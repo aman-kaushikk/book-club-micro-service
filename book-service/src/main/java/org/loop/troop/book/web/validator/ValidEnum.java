@@ -16,32 +16,28 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = EnumValidator.class)
 public @interface ValidEnum {
 
-    /**
-     * Message string.
-     *
-     * @return the string
-     */
-    String message() default "Invalid value";
+	/**
+	 * Message string.
+	 * @return the string
+	 */
+	String message() default "Invalid value";
 
-    /**
-     * Groups class [ ].
-     *
-     * @return the class [ ]
-     */
-    Class<?>[] groups() default {};
+	/**
+	 * Groups class [ ].
+	 * @return the class [ ]
+	 */
+	Class<?>[] groups() default {};
 
-    /**
-     * Payload class [ ].
-     *
-     * @return the class [ ]
-     */
-    Class<? extends Payload>[] payload() default {};
+	/**
+	 * Payload class [ ].
+	 * @return the class [ ]
+	 */
+	Class<? extends Payload>[] payload() default {};
 
-    /**
-     * Enum class class.
-     *
-     * @return the class
-     */
-    Class<? extends Enum<?>> enumClass();
+	/**
+	 * Enum class class.
+	 * @return the class
+	 */
+	Class<? extends Enum<?>> enumClass();
 
 }

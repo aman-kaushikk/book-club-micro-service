@@ -9,17 +9,31 @@ import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 
+/**
+ * The type Message resolver.
+ */
 @Component
 @RequiredArgsConstructor
 public class MessageResolver {
 
 	private static MessageSource messageSource;
 
+	/**
+	 * Instantiates a new Message resolver.
+	 * @param messageSource the message source
+	 */
 	@Autowired
 	public MessageResolver(MessageSource messageSource) {
 		MessageResolver.messageSource = messageSource;
 	}
 
+	/**
+	 * Gets message.
+	 * @param key the key
+	 * @param args the args
+	 * @param locale the locale
+	 * @return the message
+	 */
 	public static String getMessage(String key, Object[] args, Locale locale) {
 		try {
 			return messageSource.getMessage(key, args, locale);
@@ -29,6 +43,12 @@ public class MessageResolver {
 		}
 	}
 
+	/**
+	 * Gets message.
+	 * @param key the key
+	 * @param args the args
+	 * @return the message
+	 */
 	public static String getMessage(String key, Object[] args) {
 		return getMessage(key, args, LocaleContextHolder.getLocale());
 	}

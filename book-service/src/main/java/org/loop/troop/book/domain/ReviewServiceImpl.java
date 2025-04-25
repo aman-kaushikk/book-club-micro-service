@@ -17,6 +17,9 @@ import java.util.UUID;
 
 import static org.loop.troop.book.domain.Utility.getPageable;
 
+/**
+ * The type Review service.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor

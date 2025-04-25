@@ -5,17 +5,17 @@ package org.loop.troop.book.domain;
  */
 public enum BookStatus {
 
-    /**
-     * Ongoing book status.
-     */
-    ONGOING,
-    /**
-     * Completed book status.
-     */
-    COMPLETED,
-    /**
-     * Unknown book status.
-     */
-    UNKNOWN
+	/**
+	 * Ongoing book status.
+	 */
+	ONGOING,
+	/**
+	 * Completed book status.
+	 */
+	COMPLETED,
+	/**
+	 * Unknown book status.
+	 */
+	UNKNOWN
 
 }

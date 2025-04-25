@@ -26,9 +26,8 @@ public abstract class BookScraperService {
 
 	/**
 	 * Instantiates a new Book scraper service.
-	 *
 	 * @param validator the validator
-	 * @param vendor    the vendor
+	 * @param vendor the vendor
 	 */
 	public BookScraperService(Validator validator, Vendor vendor) {
 		assert validator != null;
@@ -40,7 +39,6 @@ public abstract class BookScraperService {
 	/**
 	 * Call this method to register a book after validation. This method validates the
 	 * scraping URL and only proceeds if the validation passes.
-	 *
 	 * @param url the URL to scrape
 	 * @return the registered BookDto object
 	 * @throws UrlScrapingException if the validation fails
@@ -56,7 +54,6 @@ public abstract class BookScraperService {
 	/**
 	 * Internal method that performs the actual registration. This should be implemented
 	 * by the subclass with the actual scraping logic.
-	 *
 	 * @param url the URL to scrape
 	 * @return the scraped BookDto object
 	 */
@@ -65,7 +62,6 @@ public abstract class BookScraperService {
 	/**
 	 * Method to validate the BookDto object. You can customize this validation logic
 	 * based on your requirements.
-	 *
 	 * @param bookDto the BookDto to validate
 	 * @return true if valid, false otherwise
 	 */
@@ -82,7 +78,6 @@ public abstract class BookScraperService {
 
 	/**
 	 * Support boolean.
-	 *
 	 * @param vendor the vendor
 	 * @return the boolean
 	 */

@@ -18,8 +18,8 @@ import org.springframework.util.Assert;
 /**
  * The type Page mapper.
  *
- * @param <T> the type parameter
  * @param <U> the type parameter
+ * @param <T> the type parameter
  */
 @Service
 @RequiredArgsConstructor
@@ -28,6 +28,7 @@ public class PageMapper<U, T extends Serializable> {
 	/**
 	 * Convert to page.
 	 * @param pageDto the page dto
+	 * @param mapper the mapper
 	 * @return the page
 	 */
 	public Page<U> convertToPage(PageDto<T> pageDto, Function<List<T>, List<U>> mapper) {
@@ -44,6 +45,7 @@ public class PageMapper<U, T extends Serializable> {
 	/**
 	 * Convert to dto page dto.
 	 * @param page the page
+	 * @param mapper the mapper
 	 * @return the page dto
 	 */
 	public PageDto<T> convertToDto(Page<U> page, Function<List<U>, List<T>> mapper) {

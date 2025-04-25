@@ -14,6 +14,9 @@ import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.OK;
 
+/**
+ * The type Review controller.
+ */
 @RestController
 @RequestMapping("/api/v1/review")
 @RequiredArgsConstructor
@@ -21,12 +24,26 @@ public class ReviewController {
 
 	private final ReviewService reviewService;
 
+	/**
+	 * Register new book response entity.
+	 * @param createNewReview the create new review
+	 * @return the response entity
+	 */
 	@PostMapping("/add")
 	ResponseEntity<Void> registerNewBook(@RequestBody @Valid CreateNewReview createNewReview) {
 		reviewService.createNewReview(createNewReview);
 		return ResponseEntity.ok().build();
 	}
 
+	/**
+	 * Gets review by book id.
+	 * @param bookId the book id
+	 * @param page the page
+	 * @param size the size
+	 * @param sortBy the sort by
+	 * @param sortDirection the sort direction
+	 * @return the review by book id
+	 */
 	@GetMapping
 	ResponseEntity<PageDto<ReviewDto>> getReviewByBookId(@RequestParam UUID bookId,
 			@PositiveOrZero @RequestParam(defaultValue = "0") int page,

@@ -40,9 +40,8 @@ class AmazonBookScraperService extends BookScraperService {
 
 	/**
 	 * Instantiates a new Amazon book scraper service.
-	 *
 	 * @param validator the validator
-	 * @param vendor    the vendor
+	 * @param vendor the vendor
 	 */
 	public AmazonBookScraperService(Validator validator, @Qualifier("amazonVendor") Vendor vendor) {
 		super(validator, vendor);
@@ -76,7 +75,6 @@ class AmazonBookScraperService extends BookScraperService {
 	 * <p>
 	 * extractBookInfo.
 	 * </p>
-	 *
 	 * @param amazonUrl a {@link java.lang.String} object
 	 * @return a {@link java.util.Map} object
 	 * @throws IOException the io exception

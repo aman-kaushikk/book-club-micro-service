@@ -16,14 +16,25 @@ import java.util.Map;
 import static org.loop.troop.book.web.ExceptionHandlerDSL.createProblemDetail;
 import static org.loop.troop.book.web.MessageResolver.getMessage;
 
+/**
+ * The type Exception advice.
+ */
 @RestControllerAdvice
 public class ExceptionAdvice {
 
+	/**
+	 * Handle exception response entity.
+	 * @param ex the ex
+	 * @return the response entity
+	 */
 	@ExceptionHandler(Exception.class)
 	ResponseEntity<ProblemDetail> handleException(Exception ex) {
 		return ExceptionHandlerDSL.handle(ex);
 	}
 
+	/**
+	 * Sets exception handling.
+	 */
 	@PostConstruct
 	public void setupExceptionHandling() {
 		ExceptionHandlerDSL.configure(handler -> {
