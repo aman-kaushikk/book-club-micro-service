@@ -7,13 +7,15 @@ import lombok.RequiredArgsConstructor;
 import org.loop.troop.book.domain.modal.BookDto;
 import org.loop.troop.book.domain.modal.BookRequest;
 import org.loop.troop.book.domain.modal.PageDto;
-import org.loop.troop.book.domain.service.Vendor;
+import org.loop.troop.book.domain.enums.Vendor;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 /**
  * The type Book controller.
@@ -34,9 +36,10 @@ class BookController {
 	 * @return the response entity
 	 */
 	@PostMapping("/register")
-	ResponseEntity<BookDto> registerNewBook(@RequestBody @Valid BookRequest bookRequest) {
-		var registerBook = bookService.register(bookRequest.getUrl(), Vendor.valueOf(bookRequest.getVendor()));
-		return ResponseEntity.status(CREATED).body(registerBook);
+	ResponseEntity<String> registerNewBook(@RequestBody @Valid BookRequest bookRequest) {
+		UUID uuid = UUID.randomUUID();
+		bookQueueProducer.sendBookCreatedMessage(bookRequest, uuid);
+		return ResponseEntity.status(CREATED).body(uuid.toString());
 	}
 
 	/**
@@ -53,12 +56,6 @@ class BookController {
 			@RequestParam(defaultValue = "ASC") String sortDirection) {
 		var allBook = bookService.getAllBook(page, size, sortBy, sortDirection);
 		return ResponseEntity.status(OK).body(allBook);
-	}
-
-	@RequestMapping("/create/event")
-	public ResponseEntity<Void> createBook(@RequestParam("message") String message) {
-		bookQueueProducer.sendBookCreatedMessage(message);
-		return ResponseEntity.ok().build();
 	}
 
 	@RequestMapping("/update/event")

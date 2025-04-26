@@ -57,3 +57,42 @@ select * from "public".book_genre;
 select * from "public".review;
 
 ```
+
+Rabbit mq binding
+```java
+
+    /**
+     * Binding book queue to exchange(topic) with routing type book.updated 
+     * It matches book.created exactly
+     * @return Binding
+     */
+ 	@Bean
+	public Binding bookCreatedBinding() {
+		return BindingBuilder.bind(bookQueue()).to(bookExchange()).with(rabbitMQ.getCreateRoutingKey());
+	}
+    /**
+     * binding book queue to exchange(topic) with routing type book.updated 
+     * It matches book.updated exactly
+     * @return Binding
+     */
+    @Bean
+	public Binding bookUpdatedBinding() {
+		return BindingBuilder.bind(bookQueue()).to(bookExchange()).with(rabbitMQ.getUpdateRoutingKey());
+	}
+
+    /**
+     * binding book queue to exchange(topic) with routing type book.*
+     * It matches book.created, book.updated any one word matches
+     * It doesn't match book, book.created.at means exact one match
+     * @return Binding
+     */
+	@Bean
+	public Binding bookBinding() {
+		return BindingBuilder.bind(bookQueue()).to(bookExchange()).with(rabbitMQ.getRoutingKey());
+	}
+    @Bean
+    public TopicExchange bookExchange() {
+        return new TopicExchange(rabbitMQ.getBookExchange());
+    }
+    
+```

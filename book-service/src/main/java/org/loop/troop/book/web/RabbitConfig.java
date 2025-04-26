@@ -89,23 +89,19 @@ public class RabbitConfig {
 	}
 
 	/**
-	 * Book created binding. Binding the Main Queue to the Exchange with Routing Keys
-	 * (book.created)
-	 * @return the binding
-	 */
-	@Bean
-	public Binding bookCreatedBinding() {
-		return BindingBuilder.bind(bookQueue()).to(bookExchange()).with(rabbitMQ.getCreateRoutingKey());
-	}
+	 * //@Bean public Binding bookCreatedBinding() { return
+	 * BindingBuilder.bind(bookQueue()).to(bookExchange()).with(rabbitMQ.getCreateRoutingKey());
+	 * }
+	 *
+	 *
+	 * //@Bean public Binding bookUpdatedBinding() { return
+	 * BindingBuilder.bind(bookQueue()).to(bookExchange()).with(rabbitMQ.getUpdateRoutingKey());
+	 * }
+	 **/
 
-	/**
-	 * Book updated binding. Binding the Main Queue to the Exchange with Routing Keys
-	 * (book.updated)
-	 * @return the binding
-	 */
 	@Bean
-	public Binding bookUpdatedBinding() {
-		return BindingBuilder.bind(bookQueue()).to(bookExchange()).with(rabbitMQ.getUpdateRoutingKey());
+	public Binding bookBinding() {
+		return BindingBuilder.bind(bookQueue()).to(bookExchange()).with(rabbitMQ.getRoutingKey());
 	}
 
 }

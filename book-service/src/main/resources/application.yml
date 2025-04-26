@@ -87,7 +87,7 @@ spring:
       simple:
         retry:
           enabled: true
-          max-attempts: 3
+          max-attempts: 2
           initial-interval: 500       # milliseconds
           multiplier: 5.0             # for exponential backoff
           max-interval: 5000          # maximum wait between retries
@@ -98,4 +98,5 @@ app:
     book-service-queue: book-service.queue
     book-service-create-routing-key: book.created
     book-service-update-routing-key: book.updated
+    book-service-generic-routing-key: book.*
     book-service-dead-letter-queue: book-service.dlx.queue
