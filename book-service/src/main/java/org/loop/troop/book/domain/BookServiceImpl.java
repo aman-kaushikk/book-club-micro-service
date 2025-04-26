@@ -6,7 +6,7 @@ import org.loop.troop.book.domain.modal.BookDto;
 import org.loop.troop.book.domain.modal.BuyLinkDto;
 import org.loop.troop.book.domain.modal.PageDto;
 import org.loop.troop.book.domain.service.BookScraperService;
-import org.loop.troop.book.domain.service.Vendor;
+import org.loop.troop.book.domain.enums.Vendor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

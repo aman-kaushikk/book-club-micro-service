@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.loop.troop.book.domain.BookService;
 import org.loop.troop.book.domain.modal.BookRequest;
-import org.loop.troop.book.domain.service.Vendor;
+import org.loop.troop.book.domain.enums.Vendor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 

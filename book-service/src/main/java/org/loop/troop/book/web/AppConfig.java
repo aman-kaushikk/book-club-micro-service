@@ -27,6 +27,12 @@ public class AppConfig {
 
 		private String updateRoutingKey;
 
+		private String routingKey;
+
+		public void setBookServiceGenericRoutingKey(String routingKey) {
+			this.routingKey = routingKey;
+		}
+
 		public void setBookServiceDeadLetterQueue(String queue) {
 			this.bookDeadLetterQueue = queue;
 		}

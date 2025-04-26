@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.loop.troop.book.domain.BookStatus;
+import org.loop.troop.book.domain.enums.BookStatus;
 import org.loop.troop.book.web.validator.ValidEnum;
 
 import java.io.Serializable;

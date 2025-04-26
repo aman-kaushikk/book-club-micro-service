@@ -3,7 +3,7 @@ package org.loop.troop.book.domain;
 import org.loop.troop.book.domain.modal.BookDto;
 import org.loop.troop.book.domain.modal.BuyLinkDto;
 import org.loop.troop.book.domain.modal.PageDto;
-import org.loop.troop.book.domain.service.Vendor;
+import org.loop.troop.book.domain.enums.Vendor;
 
 import java.util.List;
 

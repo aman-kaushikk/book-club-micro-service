@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
+import org.loop.troop.book.domain.enums.BookStatus;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.loop.troop.book.domain;
+package org.loop.troop.book.domain.enums;
 
 /**
  * The enum Book status.

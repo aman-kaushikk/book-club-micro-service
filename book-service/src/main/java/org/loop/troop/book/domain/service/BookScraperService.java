@@ -4,7 +4,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
 import org.loop.troop.book.domain.UrlScrapingException;
-import org.loop.troop.book.domain.modal.BaseDto;
+import org.loop.troop.book.domain.enums.Vendor;
 import org.loop.troop.book.domain.modal.BookDto;
 
 import java.util.Set;

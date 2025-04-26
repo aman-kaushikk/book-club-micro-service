@@ -1,6 +1,6 @@
 package org.loop.troop.book.web;
 
-import org.loop.troop.book.domain.service.Vendor;
+import org.loop.troop.book.domain.enums.Vendor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package org.loop.troop.book.domain.service;
+package org.loop.troop.book.domain.enums;
 
 /**
  * The enum Vendor.

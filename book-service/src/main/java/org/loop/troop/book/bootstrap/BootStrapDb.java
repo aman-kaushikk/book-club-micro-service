@@ -7,12 +7,10 @@ import org.loop.troop.book.domain.ServiceException;
 import org.loop.troop.book.domain.Utility;
 import org.loop.troop.book.domain.modal.BookRequest;
 import org.loop.troop.book.domain.modal.BuyLinkDto;
-import org.loop.troop.book.domain.service.Vendor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;

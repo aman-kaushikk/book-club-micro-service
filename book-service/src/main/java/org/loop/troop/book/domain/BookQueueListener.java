@@ -2,6 +2,7 @@ package org.loop.troop.book.domain;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.loop.troop.book.domain.modal.EventLogDto;
 import org.loop.troop.book.web.AppConfig;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -19,23 +21,33 @@ public class BookQueueListener {
 
 	private final AppConfig appConfig;
 
-	@RabbitListener(queues = "#{appConfig.getRabbitmq().getBookQueue()}")
-	public void listenToBookQueue(Message message, @Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey) {
-		// Access the routing key from the message header
-		log.info("Received message: {}", new String(message.getBody()));
-		log.info("Routing Key: {}", routingKey);
+	private final List<BookRoutingStrategy> bookRoutingStrategies;
 
-		if (routingKey.equals(appConfig.getRabbitmq().getCreateRoutingKey())) {
-			// Handle book creation logic
-			log.info("Book created message received.");
+	private final EventLogMapper eventLogMapper;
+
+	private static final String EVENT_ID = "event-id";
+
+	private static final String APP = "app";
+
+	@RabbitListener(queues = "#{appConfig.getRabbitmq().getBookQueue()}")
+	public void listenToBookQueue(Message message, @Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey,
+			@Header(EVENT_ID) UUID eventId, @Header(APP) String app) {
+		String actualMessage = new String(message.getBody());
+		log.info("Received message: {}", actualMessage);
+		log.info("Routing Key: {}", routingKey);
+		log.info("Header eventId: {}", eventId);
+		log.info("Header app: {}", app);
+
+		for (var bookRoutingStrategy : bookRoutingStrategies) {
+			if (bookRoutingStrategy.supportRoutingKey(routingKey)) {
+				log.info("Book Strategy matched: {}", bookRoutingStrategy.name());
+				EventLogDto eventLogDto = bookRoutingStrategy.process(actualMessage, eventId);
+				log.info("payload in listener: {}", eventLogDto.getPayload());
+				return;
+			}
 		}
-		else if (routingKey.equals(appConfig.getRabbitmq().getUpdateRoutingKey())) {
-			// Handle book update logic
-			log.info("Book updated message received.");
-		}
-		else {
-			log.info("Unknown routing key.");
-		}
+		throw new ServiceException("Currently no matching strategy to handle this event");
+
 	}
 
 	@RabbitListener(queues = "#{appConfig.getRabbitmq().getBookDeadLetterQueue()}")

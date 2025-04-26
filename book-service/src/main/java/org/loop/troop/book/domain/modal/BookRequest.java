@@ -2,7 +2,7 @@ package org.loop.troop.book.domain.modal;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import org.loop.troop.book.domain.service.Vendor;
+import org.loop.troop.book.domain.enums.Vendor;
 import org.loop.troop.book.web.validator.ValidEnum;
 
 /**
