@@ -75,3 +75,27 @@ spring:
       redis:
         host: localhost
         port: 6379
+  # ===============================
+  # Rabbit-Mq Config
+  # ===============================
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+    listener:
+      simple:
+        retry:
+          enabled: true
+          max-attempts: 3
+          initial-interval: 500       # milliseconds
+          multiplier: 2.0             # for exponential backoff
+          max-interval: 5000          # maximum wait between retries
+        default-requeue-rejected: false
+app:
+  rabbitmq:
+    book-exchange: book-service.exchange
+    book-service-queue: book-service.queue
+    book-service-create-routing-key: book.created
+    book-service-update-routing-key: book.updated
+    book-service-dead-letter-queue: book-service.dlx.queue

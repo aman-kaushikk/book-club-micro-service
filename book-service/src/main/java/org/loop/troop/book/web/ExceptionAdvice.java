@@ -58,7 +58,8 @@ public class ExceptionAdvice {
 			var errors = methodArgumentNotValidException.getBindingResult()
 				.getFieldErrors()
 				.stream()
-				.map(fieldError -> Map.of("field", fieldError.getField(), "message", Objects.requireNonNull(fieldError.getDefaultMessage())))
+				.map(fieldError -> Map.of("field", fieldError.getField(), "message",
+						Objects.requireNonNull(fieldError.getDefaultMessage())))
 				.toList();
 			return createProblemDetail(HttpStatus.BAD_REQUEST, "Validation Error - Cannot validate request object",
 					throwable, errors);

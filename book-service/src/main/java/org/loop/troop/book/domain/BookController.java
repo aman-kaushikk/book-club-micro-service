@@ -26,6 +26,8 @@ class BookController {
 
 	private final BookService bookService;
 
+	private final BookQueueProducer bookQueueProducer;
+
 	/**
 	 * Register new book response entity.
 	 * @param bookRequest the book request
@@ -51,6 +53,18 @@ class BookController {
 			@RequestParam(defaultValue = "ASC") String sortDirection) {
 		var allBook = bookService.getAllBook(page, size, sortBy, sortDirection);
 		return ResponseEntity.status(OK).body(allBook);
+	}
+
+	@RequestMapping("/create/event")
+	public ResponseEntity<Void> createBook(@RequestParam("message") String message) {
+		bookQueueProducer.sendBookCreatedMessage(message);
+		return ResponseEntity.ok().build();
+	}
+
+	@RequestMapping("/update/event")
+	public ResponseEntity<Void> updateBook(@RequestParam("message") String message) {
+		bookQueueProducer.sendBookUpdatedMessage(message);
+		return ResponseEntity.ok().build();
 	}
 
 }
