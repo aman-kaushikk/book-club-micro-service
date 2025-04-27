@@ -18,7 +18,8 @@ create table book (
 create table book_buy_link (
     book_id_fk uuid not null,
     url varchar(255) not null,
-    vendor varchar(255) not null
+    vendor varchar(255) not null,
+    unique (vendor, url)
 );
 
 create table book_club (

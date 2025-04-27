@@ -45,15 +45,15 @@ public class ExceptionAdvice {
 			handler.on(UrlScrapingException.class).respondWithStatus(HttpStatus.BAD_GATEWAY);
 			// handling jakarta validation
 			handler.on(MethodArgumentNotValidException.class)
-				.respondWith(ExceptionAdvice::MethodArgumentNotValidException);
+				.respondWith(ExceptionAdvice::methodArgumentNotValidException);
 			handler.on(ConstraintViolationException.class)
-				.respondWith(ExceptionAdvice::MethodArgumentNotValidException);
+				.respondWith(ExceptionAdvice::handleConstraintViolationException);
 			// handling default exception
 			handler.defaultResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
 		});
 	}
 
-	private static ProblemDetail MethodArgumentNotValidException(Throwable throwable) {
+	private static ProblemDetail methodArgumentNotValidException(Throwable throwable) {
 		if (throwable instanceof MethodArgumentNotValidException methodArgumentNotValidException) {
 			var errors = methodArgumentNotValidException.getBindingResult()
 				.getFieldErrors()

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.loop.troop.book.domain.Utility.getPageable;
@@ -36,6 +37,7 @@ public class ReviewServiceImpl implements ReviewService {
 	public void createNewReview(@Valid CreateNewReview createNewReview) {
 		Assert.notNull(createNewReview, "create review object must not be null");
 		ReviewDto reviewDto = createNewReview.toDto();
+		reviewDto.setCreatedAt(LocalDateTime.now());
 		Review reviewEntity = bookMapper.toReviewEntity(reviewDto);
 		Book book = bookRepository.findById(createNewReview.getBookId())
 			.orElseThrow(() -> new ServiceException("Cannot found book with given id: " + createNewReview.getBookId()));

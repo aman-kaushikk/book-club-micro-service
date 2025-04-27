@@ -13,7 +13,7 @@ public interface ReviewService {
 
 	/**
 	 * Create new review.
-	 * @param createNewReview the create new review
+	 * @param createNewReview the creation new review
 	 */
 	void createNewReview(CreateNewReview createNewReview);
 

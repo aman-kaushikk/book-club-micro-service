@@ -26,7 +26,7 @@ public class ReviewController {
 
 	/**
 	 * Register new book response entity.
-	 * @param createNewReview the create new review
+	 * @param createNewReview the creation new review
 	 * @return the response entity
 	 */
 	@PostMapping("/add")

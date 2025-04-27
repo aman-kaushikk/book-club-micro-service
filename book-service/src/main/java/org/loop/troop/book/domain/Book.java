@@ -51,7 +51,8 @@ class Book extends BaseEntity {
 	private BookStatus bookStatus;
 
 	@ElementCollection
-	@CollectionTable(name = "book_buy_link", joinColumns = @JoinColumn(name = "book_id_fk"))
+	@CollectionTable(name = "book_buy_link", joinColumns = @JoinColumn(name = "book_id_fk"),
+			uniqueConstraints = @UniqueConstraint(columnNames = { "vendor", "url" }))
 	@Column(name = "buy_link")
 	private List<BuyLink> buyLinks = new ArrayList<>();
 
