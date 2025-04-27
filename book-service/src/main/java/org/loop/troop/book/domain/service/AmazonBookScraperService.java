@@ -133,7 +133,15 @@ class AmazonBookScraperService extends BookScraperService {
 		bookDto.setCreatedAt(baseDto.getCreatedAt());
 		bookDto.setCreatedBy(baseDto.getCreatedBy());
 		bookDto.setUpdatedAt(baseDto.getUpdatedAt());
-		bookDto.setPageCount(Integer.valueOf(extractBookInfo.get("pageCount")));
+		String pageCountStr = extractBookInfo.get("pageCount");
+		if (pageCountStr != null && pageCountStr.matches("\\d+")) {
+			int pageCount = Integer.parseInt(pageCountStr);
+			bookDto.setPageCount(pageCount);
+		}else{
+			log.error("cannot fetch page count: {}",pageCountStr);
+			bookDto.setPageCount(0);
+		}
+
 		BuyLinkDto buyLinkDto = new BuyLinkDto();
 		try {
 			url = Utility.sanitizeUrl(url);

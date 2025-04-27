@@ -96,3 +96,31 @@ Rabbit mq binding
     }
     
 ```
+
+Restore Database
+
+```postgres-psql
+-- Step 0: move backup folder to docker
+pg_dump -U postgres -d "book-db" > backup/backup_book_backup.sql;
+-- Step 1: where -U username -d database name
+psql -U postgres -d "book-db" < backup/backup_public.sql;
+```
+
+Restore Database to another schema
+```postgres-psql
+-- Step 0: Backup data
+-- Create new data-base
+psql -U postgres;
+CREATE DATABASE book_backup_db;
+\l
+\q
+-- dump database to backup file ( since main book-db contains all data to be back up)
+pg_dump -U postgres -d "book-db" > backup/backup_book_backup.sql; 
+sed -i 's/public./book_backup./g' backup/backup_book_backup.sql;
+-- Step 1: Create new schema : book_backup
+psql -U postgres -d "book_backup_db"; 
+create schema book_backup;
+\q
+-- Step 2: restore command
+psql -U postgres -d "book_backup_db" < backup/backup_book_backup.sql;
+```
