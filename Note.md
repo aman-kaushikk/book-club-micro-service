@@ -19,9 +19,9 @@ monitor
 
 Caching usage
 ```text
-@CachePut(value = "bookClubs", key = "#result.clubId")
-@Cacheable(value = "bookClubs", key = "#id")
-@CacheEvict(value = "bookClubs", key = "#id")
+@CachePut(value = "clubs", key = "#result.clubId")
+@Cacheable(value = "clubs", key = "#id")
+@CacheEvict(value = "clubs", key = "#id")
 
 private final CacheManager cacheManager;
 var cache = cacheManager.getCache("allBookClubs");
