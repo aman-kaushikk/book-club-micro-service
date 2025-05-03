@@ -5,6 +5,8 @@ import lombok.Data;
 @Data
 public class MeetingDto {
 
-    private String topic;
-    private String scheduledDate;
+	private String topic;
+
+	private String scheduledDate;
+
 }

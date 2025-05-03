@@ -4,7 +4,6 @@ import org.loop.troop.club.domain.dto.ClubDto;
 import org.loop.troop.club.domain.dto.MeetingDto;
 import org.loop.troop.club.domain.dto.PollDto;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -12,30 +11,30 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ClubMapper {
 
-    ClubMapper INSTANCE = Mappers.getMapper(ClubMapper.class);
+	ClubMapper INSTANCE = Mappers.getMapper(ClubMapper.class);
 
-    @Mapping(source = "members", target = "memberIds")
-    ClubDto mapToDto(Club club);
+	ClubDto mapToDto(Club club);
 
-    List<ClubDto> mapToDto(List<Club> clubs);
-    @Mapping(source = "memberIds", target = "members")
-    Club mapToEntity(ClubDto clubDto);
+	Club mapToEntity(ClubDto clubDto);
 
-    List<Club> mapToEntity(List<ClubDto> clubDtoList);
+	List<ClubDto> mapToDto(List<Club> clubs);
 
-    MeetingDto mapMeetingToDto(Meeting meeting);
+	List<Club> mapToEntity(List<ClubDto> clubDtoList);
 
-    List<MeetingDto> mapMeetingToDto(List<Meeting> meetings);
+	MeetingDto mapMeetingToDto(Meeting meeting);
 
-    Meeting mapMeetingToEntity(MeetingDto meetingDto);
+	List<MeetingDto> mapMeetingToDto(List<Meeting> meetings);
 
-    List<Meeting> mapMeetingToEntity(List<MeetingDto> meetingDtoList);
+	Meeting mapMeetingToEntity(MeetingDto meetingDto);
 
-    PollDto mapPollToDto(Poll poll);
+	List<Meeting> mapMeetingToEntity(List<MeetingDto> meetingDtoList);
 
-    List<PollDto> mapPollToDto(List<Poll> polls);
+	PollDto mapPollToDto(Poll poll);
 
-    Poll mapPollToEntity(PollDto pollDto);
+	List<PollDto> mapPollToDto(List<Poll> polls);
 
-    List<Poll> mapPollToEntity(List<PollDto> pollDtos);
+	Poll mapPollToEntity(PollDto pollDto);
+
+	List<Poll> mapPollToEntity(List<PollDto> pollDtoList);
+
 }

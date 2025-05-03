@@ -5,22 +5,24 @@ import jakarta.persistence.*;
 @Entity
 public class Meeting {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private String topic;
-    private String scheduledDate;
+	private String topic;
 
-    @ManyToOne
-    @JoinColumn(name = "book_club_id")
-    private Club club;
+	private String scheduledDate;
 
-    // Constructors, Getters, and Setters
+	@ManyToOne
+	@JoinColumn(name = "book_club_id")
+	private Club club;
 
-    public Meeting(String topic, String scheduledDate, Club club) {
-        this.topic = topic;
-        this.scheduledDate = scheduledDate;
-        this.club = club;
-    }
+	// Constructors, Getters, and Setters
+
+	public Meeting(String topic, String scheduledDate, Club club) {
+		this.topic = topic;
+		this.scheduledDate = scheduledDate;
+		this.club = club;
+	}
+
 }

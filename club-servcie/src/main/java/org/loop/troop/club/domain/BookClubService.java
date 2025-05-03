@@ -9,38 +9,40 @@ import java.util.UUID;
 @Service
 public class BookClubService {
 
-    private final ClubRepository clubRepository;
-    private final ClubMapper clubMapper;
+	private final ClubRepository clubRepository;
 
-    @Autowired
-    public BookClubService(ClubRepository clubRepository, ClubMapper clubMapper) {
-        this.clubRepository = clubRepository;
-        this.clubMapper = clubMapper;
-    }
+	private final ClubMapper clubMapper;
 
-    public ClubDto createBookClub(ClubDto bookClubDto) {
-        Club club = clubMapper.mapToEntity(bookClubDto);
-        Club savedClub = clubRepository.save(club);
-        return clubMapper.mapToDto(savedClub);
-    }
+	@Autowired
+	public BookClubService(ClubRepository clubRepository, ClubMapper clubMapper) {
+		this.clubRepository = clubRepository;
+		this.clubMapper = clubMapper;
+	}
 
-    public ClubDto getBookClub(UUID clubId) {
-        Club club = clubRepository.findById(clubId)
-                .orElseThrow(() -> new ResourceNotFoundException("BookClub not found"));
-        return clubMapper.mapToDto(club);
-    }
+	public ClubDto createBookClub(ClubDto bookClubDto) {
+		Club club = clubMapper.mapToEntity(bookClubDto);
+		Club savedClub = clubRepository.save(club);
+		return clubMapper.mapToDto(savedClub);
+	}
 
-    public void deleteBookClub(UUID clubId) {
-        Club club = clubRepository.findById(clubId)
-                .orElseThrow(() -> new ResourceNotFoundException("BookClub not found"));
-        clubRepository.delete(club);
-    }
+	public ClubDto getBookClub(UUID clubId) {
+		Club club = clubRepository.findById(clubId)
+			.orElseThrow(() -> new ResourceNotFoundException("BookClub not found"));
+		return clubMapper.mapToDto(club);
+	}
 
-    public ClubDto updateBookClub(UUID clubId, ClubDto bookClubDto) {
-        Club club = clubRepository.findById(clubId)
-                .orElseThrow(() -> new ResourceNotFoundException("BookClub not found"));
-        club.setName(bookClubDto.getName());
-        Club updatedClub = clubRepository.save(club);
-        return clubMapper.mapToDto(updatedClub);
-    }
+	public void deleteBookClub(UUID clubId) {
+		Club club = clubRepository.findById(clubId)
+			.orElseThrow(() -> new ResourceNotFoundException("BookClub not found"));
+		clubRepository.delete(club);
+	}
+
+	public ClubDto updateBookClub(UUID clubId, ClubDto bookClubDto) {
+		Club club = clubRepository.findById(clubId)
+			.orElseThrow(() -> new ResourceNotFoundException("BookClub not found"));
+		club.setName(bookClubDto.getName());
+		Club updatedClub = clubRepository.save(club);
+		return clubMapper.mapToDto(updatedClub);
+	}
+
 }

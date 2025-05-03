@@ -7,8 +7,10 @@ import java.util.List;
 @Data
 public class PollDto {
 
-    private String question;
-    private List<String> options;
+	private String question;
 
-    // Getters and Setters
+	private List<String> options;
+
+	// Getters and Setters
+
 }

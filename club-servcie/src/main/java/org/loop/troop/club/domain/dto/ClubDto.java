@@ -1,30 +1,36 @@
 package org.loop.troop.club.domain.dto;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 public class ClubDto {
 
-    @NotNull(message = "{club.id.notnull}")
-    private Long id;
+	private UUID clubId;
 
-    @NotBlank(message = "{club.name.blank}")
-    @Size(min = 3, max = 100, message = "{club.name.size}")
-    private String name;
+	@NotBlank(message = "{club.name.required}")
+	private String name;
 
-    @NotNull(message = "{club.memberIds.notnull}")
-    private List<Long> memberIds;
+	private String profileUrl;
 
-    @Valid
-    private List<MeetingDto> meetings = new ArrayList<>();
+	@NotBlank(message = "{club.description.required}")
+	@Length(max = 500)
+	private String description;
 
-    @Valid
-    private List<PollDto> polls = new ArrayList<>();
+	@NotBlank(message = "{club.about-us.required}")
+	private String aboutUs;
+
+	private UUID currentReadingBook;
+
+	private List<UUID> readBooks = new ArrayList<>();
+
+	private List<UUID> futureReadBooks = new ArrayList<>();
+
+	private List<ContactLinkInfoDto> contactLinkInfo = new ArrayList<>();
+
 }

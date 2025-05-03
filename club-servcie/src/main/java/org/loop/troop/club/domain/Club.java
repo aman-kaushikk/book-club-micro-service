@@ -13,38 +13,66 @@ import java.util.UUID;
 @Setter
 public class Club {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID clubId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private UUID clubId;
 
-    private String name;
+	@Column(nullable = false)
+	private String name;
 
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Member> members = new ArrayList<>();
+	@Column(name = "url")
+	private String profileUrl;
 
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Meeting> meetings = new ArrayList<>();
+	@OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Member> members = new ArrayList<>();
 
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Poll> polls = new ArrayList<>();
+	@ElementCollection
+	@CollectionTable(name = "read_book", joinColumns = @JoinColumn(name = "club_id_fk"))
+	@Column(name = "read_book_id")
+	private List<UUID> readBooks = new ArrayList<>();
 
+	@ElementCollection
+	@CollectionTable(name = "future_read_book", joinColumns = @JoinColumn(name = "club_id_fk"))
+	@Column(name = "future_read_book_id")
+	private List<UUID> futureReadBooks = new ArrayList<>();
 
-    public void addMeeting(String topic, String scheduledDate) {
-        Meeting meeting = new Meeting(topic, scheduledDate, this);
-        meetings.add(meeting);
-    }
+	@Column(name = "current_book")
+	private UUID currentReadingBook;
 
-    public void addPoll(String question, List<String> options) {
-        Poll poll = new Poll(question, options, this);
-        polls.add(poll);
-    }
+	@Column(length = 500)
+	private String description;
 
-    public void removeMeeting(Meeting meeting) {
-        meetings.remove(meeting);
-    }
+	@Column(columnDefinition = "TEXT")
+	private String aboutUs;
 
-    public void removePoll(Poll poll) {
-        polls.remove(poll);
-    }
+	@ElementCollection
+	@CollectionTable(name = "contact_link_info", joinColumns = @JoinColumn(name = "club_id_fk"),
+			uniqueConstraints = @UniqueConstraint(columnNames = { "name", "url" }))
+	@Column(name = "contact_link_id")
+	private List<ContactLinkInfo> contactLinkInfo = new ArrayList<>();
+
+	@OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Meeting> meetings = new ArrayList<>();
+
+	@OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Poll> polls = new ArrayList<>();
+
+	public void addMeeting(String topic, String scheduledDate) {
+		Meeting meeting = new Meeting(topic, scheduledDate, this);
+		meetings.add(meeting);
+	}
+
+	public void addPoll(String question, List<String> options) {
+		Poll poll = new Poll(question, options, this);
+		polls.add(poll);
+	}
+
+	public void removeMeeting(Meeting meeting) {
+		meetings.remove(meeting);
+	}
+
+	public void removePoll(Poll poll) {
+		polls.remove(poll);
+	}
+
 }
-
