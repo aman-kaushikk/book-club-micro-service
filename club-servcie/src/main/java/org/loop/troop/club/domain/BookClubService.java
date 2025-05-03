@@ -1,6 +1,7 @@
 package org.loop.troop.club.domain;
 
 import org.loop.troop.club.domain.dto.ClubDto;
+import org.loop.troop.club.domain.dto.CreateClubRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,8 @@ public class BookClubService {
 		this.clubMapper = clubMapper;
 	}
 
-	public ClubDto createBookClub(ClubDto bookClubDto) {
+	public ClubDto createBookClub(CreateClubRequest createClubRequest) {
+		ClubDto bookClubDto = clubMapper.createClubTo(createClubRequest);
 		Club club = clubMapper.mapToEntity(bookClubDto);
 		Club savedClub = clubRepository.save(club);
 		return clubMapper.mapToDto(savedClub);

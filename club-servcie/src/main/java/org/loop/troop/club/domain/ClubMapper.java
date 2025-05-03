@@ -1,10 +1,12 @@
 package org.loop.troop.club.domain;
 
 import org.loop.troop.club.domain.dto.ClubDto;
+import org.loop.troop.club.domain.dto.CreateClubRequest;
 import org.loop.troop.club.domain.dto.MeetingDto;
 import org.loop.troop.club.domain.dto.PollDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.ObjectFactory;
 import org.mapstruct.factory.Mappers;
 
@@ -14,6 +16,11 @@ import java.util.List;
 interface ClubMapper {
 
 	ClubMapper INSTANCE = Mappers.getMapper(ClubMapper.class);
+
+	@Mappings(value = { @Mapping(target = "clubId", ignore = true),
+			@Mapping(target = "currentReadingBook", ignore = true), @Mapping(target = "readBooks", ignore = true),
+			@Mapping(target = "contactLinkInfo", ignore = true), })
+	ClubDto createClubTo(CreateClubRequest createClubRequest);
 
 	ClubDto mapToDto(Club club);
 

@@ -27,6 +27,4 @@ public class PollDto {
 
 	private List<UUID> bookIds = new ArrayList<>();
 
-	// Getters and Setters
-
 }
