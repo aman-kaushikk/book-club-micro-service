@@ -63,8 +63,7 @@ class Club {
 	}
 
 	public void addPoll(String question, List<String> options) {
-		Poll poll = new Poll(question, options, this);
-		polls.add(poll);
+
 	}
 
 	public void removeMeeting(Meeting meeting) {

@@ -5,31 +5,58 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
 @Getter
 @Setter
-class Poll {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "poll_type", discriminatorType = DiscriminatorType.STRING)
+abstract class Poll {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String question;
+	private String title;
+
+	private String note;
+
+	@Embedded
+	private DueSchedule dueSchedule;
+
+	private boolean anonymous;
 
 	@ElementCollection
-	private List<String> options;
+	@CollectionTable(name = "poll_due_schedule", joinColumns = @JoinColumn(name = "poll_id_fk"))
+	@Column(name = "polled_schedule_id")
+	private List<DueSchedule> meetingSchedule = new ArrayList<>();
 
 	@ManyToOne
 	@JoinColumn(name = "book_club_id")
 	private Club club;
 
-	public Poll(String question, List<String> options, Club club) {
-		this.question = question;
-		this.options = options;
-		this.club = club;
+	@Transient
+	private String pollType;
+
+	@ElementCollection
+	@CollectionTable(name = "polled_books", joinColumns = @JoinColumn(name = "poll_id_fk"))
+	@Column(name = "polled_book_id")
+	protected final List<UUID> bookIds = new ArrayList<>();
+
+	@PostLoad
+	@PostPersist
+	@PostUpdate
+	private void setDiscriminatorType() {
+		this.pollType = this.getClass().getAnnotation(DiscriminatorValue.class).value();
 	}
+
+	public abstract void addBookSelection(UUID bookId);
 
 }

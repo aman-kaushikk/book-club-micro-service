@@ -4,6 +4,8 @@ import org.loop.troop.club.domain.dto.ClubDto;
 import org.loop.troop.club.domain.dto.MeetingDto;
 import org.loop.troop.club.domain.dto.PollDto;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.ObjectFactory;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -33,8 +35,17 @@ interface ClubMapper {
 
 	List<PollDto> mapPollToDto(List<Poll> polls);
 
-	Poll mapPollToEntity(PollDto pollDto);
+	abstract Poll mapPollToEntity(PollDto pollDto);
 
 	List<Poll> mapPollToEntity(List<PollDto> pollDtoList);
+
+	@ObjectFactory
+	default Poll createPoll(PollDto dto) {
+		return switch (dto.getPollType()) {
+			case "YES_NO" -> new YesNoPoll();
+			case "MULTIPLE_CHOICE" -> new MultipleChoicePoll();
+			default -> throw new IllegalArgumentException("Unsupported poll type: " + dto.getPollType());
+		};
+	}
 
 }
