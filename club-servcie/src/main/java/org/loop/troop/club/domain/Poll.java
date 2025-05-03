@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Poll {
+class Poll {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

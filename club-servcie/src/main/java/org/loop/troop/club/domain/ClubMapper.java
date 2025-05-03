@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface ClubMapper {
+interface ClubMapper {
 
 	ClubMapper INSTANCE = Mappers.getMapper(ClubMapper.class);
 

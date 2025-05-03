@@ -3,7 +3,7 @@ package org.loop.troop.club.domain;
 import jakarta.persistence.*;
 
 @Entity
-public class Member {
+class Member {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

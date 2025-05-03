@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface ClubRepository extends JpaRepository<Club, UUID> {
+interface ClubRepository extends JpaRepository<Club, UUID> {
 
 }

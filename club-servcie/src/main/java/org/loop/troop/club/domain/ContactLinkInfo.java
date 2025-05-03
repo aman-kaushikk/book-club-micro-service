@@ -8,7 +8,7 @@ import lombok.Setter;
 @Embeddable
 @Getter
 @Setter
-public class ContactLinkInfo {
+class ContactLinkInfo {
 
 	@Column(nullable = false)
 	private String name;

@@ -11,7 +11,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-public class Club {
+class Club {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)

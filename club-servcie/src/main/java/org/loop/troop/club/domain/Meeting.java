@@ -1,9 +1,15 @@
 package org.loop.troop.club.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-public class Meeting {
+@NoArgsConstructor
+@Getter
+@Setter
+class Meeting {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,8 +22,6 @@ public class Meeting {
 	@ManyToOne
 	@JoinColumn(name = "book_club_id")
 	private Club club;
-
-	// Constructors, Getters, and Setters
 
 	public Meeting(String topic, String scheduledDate, Club club) {
 		this.topic = topic;
