@@ -21,8 +21,9 @@ import java.util.UUID;
 abstract class Poll {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.UUID)
+	@Column(columnDefinition = "UUID")
+	private UUID id;
 
 	private String title;
 

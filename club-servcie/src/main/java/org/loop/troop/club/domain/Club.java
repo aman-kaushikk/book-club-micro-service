@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -15,6 +17,7 @@ class Club {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
+	@Column(columnDefinition = "UUID")
 	private UUID clubId;
 
 	@Column(nullable = false)
@@ -57,8 +60,35 @@ class Club {
 	@OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Poll> polls = new ArrayList<>();
 
-	public void addMeeting(String topic, String scheduledDate) {
-		Meeting meeting = new Meeting(topic, scheduledDate, this);
+	public void addMeeting(
+			String title,
+			LocalDate meetingDate,
+			LocalTime meetingTime,
+			String timeZone,
+			int durationMinutes,
+			String virtualMeetingLink,
+			String location,
+			String note,
+			int rsvpLimit,
+			boolean hostVideoEnabled,
+			Member host,
+			List<String> materials
+	) {
+		Meeting meeting = new Meeting(
+				title,
+				meetingDate,
+				meetingTime,
+				timeZone,
+				durationMinutes,
+				virtualMeetingLink,
+				location,
+				note,
+				rsvpLimit,
+				hostVideoEnabled,
+				host,
+				this,  // Club reference
+				materials
+		);
 		meetings.add(meeting);
 	}
 
@@ -72,6 +102,16 @@ class Club {
 
 	public void removePoll(Poll poll) {
 		polls.remove(poll);
+	}
+
+	public void addMember(Member member) {
+		members.add(member);
+		member.setClub(this);
+	}
+
+	public void removeMember(Member member) {
+		members.remove(member);
+		member.setClub(null);
 	}
 
 }

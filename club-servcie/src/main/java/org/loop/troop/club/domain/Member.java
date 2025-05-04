@@ -1,20 +1,38 @@
 package org.loop.troop.club.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import java.util.UUID;
 
 @Entity
-class Member {
+@Getter
+@Setter
+public class Member {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.UUID)
+	@Column(columnDefinition = "UUID")
+	private UUID id;
 
+	@Column(nullable = false)
 	private String name;
 
-	@ManyToOne
-	@JoinColumn(name = "book_club_id")
+	@Column(unique = true)
+	private String email;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "club_id")
 	private Club club;
 
-	// Getters and Setters
+	// Optional: Add other fields as needed
+	// private LocalDateTime joinedDate;
+	// private String profilePictureUrl;
 
+	public Member() {}
+
+	public Member(String name, String email) {
+		this.name = name;
+		this.email = email;
+	}
 }
