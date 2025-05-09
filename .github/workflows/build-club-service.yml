@@ -1,4 +1,4 @@
-name: Build Book Service
+name: Build Club Service
 
 on:
   push:
