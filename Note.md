@@ -124,3 +124,8 @@ create schema book_backup;
 -- Step 2: restore command
 psql -U postgres -d "book_backup_db" < backup/backup_book_backup.sql;
 ```
+
+# How to create app network in docker
+```shell
+docker network create --driver bridge app-net
+```
