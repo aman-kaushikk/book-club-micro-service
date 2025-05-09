@@ -5,9 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,8 +19,7 @@ abstract class Poll {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(columnDefinition = "UUID")
-	private UUID id;
+	private UUID pollId;
 
 	private String title;
 
@@ -57,6 +53,9 @@ abstract class Poll {
 	private void setDiscriminatorType() {
 		this.pollType = this.getClass().getAnnotation(DiscriminatorValue.class).value();
 	}
+
+	@OneToOne
+	PollResult pollResult;
 
 	public abstract void addBookSelection(UUID bookId);
 

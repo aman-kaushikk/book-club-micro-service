@@ -1,6 +1,8 @@
 package org.loop.troop.club.domain;
 
+import jakarta.validation.Valid;
 import org.loop.troop.club.domain.dto.ClubDto;
+import org.loop.troop.club.domain.dto.CreateClubRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +22,8 @@ class BookClubController {
 	}
 
 	@PostMapping
-	ResponseEntity<ClubDto> createClub(@RequestBody ClubDto ClubDto) {
-		ClubDto createdBookClub = bookClubService.createBookClub(ClubDto);
+	ResponseEntity<ClubDto> createClub(@Valid @RequestBody CreateClubRequest createClubRequest) {
+		ClubDto createdBookClub = bookClubService.createBookClub(createClubRequest);
 		return new ResponseEntity<>(createdBookClub, HttpStatus.CREATED);
 	}
 
