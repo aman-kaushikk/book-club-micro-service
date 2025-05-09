@@ -20,12 +20,18 @@ class EventLog {
 	@Id
 	private UUID eventId;
 
+	@Column(nullable = false)
+	private String app;
+
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private EventType eventType;
 
 	@Column(nullable = false)
 	private String routingKey;
+
+	@Column(nullable = false)
+	private String exchange;
 
 	@Lob
 	private String payload;
