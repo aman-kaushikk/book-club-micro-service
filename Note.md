@@ -129,3 +129,24 @@ psql -U postgres -d "book_backup_db" < backup/backup_book_backup.sql;
 ```shell
 docker network create --driver bridge app-net
 ```
+
+# Check merged branch
+```shell
+git checkout main
+git pull origin main  # Optional: ensure you have the latest
+git branch --merged
+------------------
+-- Get detail graph view
+git log --graph --oneline --all --decorate
+git log --merges --oneline main
+
+```
+# Delete branch after checking merged with main
+```shell
+ git branch -d feature/club-service
+ git push origin --delete feature/club-service
+ ----------------------
+ git branch -d feature/book-service
+ git push origin --delete feature/book-service
+
+```

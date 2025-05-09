@@ -1,0 +1,68 @@
+# ===============================
+# Actuator Configuration
+# ===============================
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,env,beans,loggers
+  endpoint:
+    health:
+      show-details: always
+  health:
+    db:
+      enabled: true
+info:
+  app:
+    name: event service
+    version: 1.0.0
+    description: event service
+
+# ===============================
+# Application Name
+# ===============================
+spring:
+  application:
+    name: club-service
+
+  # ===============================
+  # PostgresSQL Configuration
+  # ===============================
+  datasource:
+    url: jdbc:postgresql://localhost:5434/event-db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      idle-timeout: 30000
+      pool-name: HikariPool-19
+
+  # ===============================
+  # Hibernate Configuration
+  # ===============================
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+  # ===============================
+  # Pagination and Sorting Defaults
+  # ===============================
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        max-page-size: 100
+  # ===============================
+  # Flyway configuration
+  # ===============================
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:migration
