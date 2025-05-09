@@ -1,6 +1,5 @@
 package org.loop.troop.club.domain;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,19 +20,29 @@ public class Meeting {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	@Column(columnDefinition = "UUID")
 	private UUID id;
-	private String title;  // Changed from 'topic' to match DTO
+
+	private String title; // Changed from 'topic' to match DTO
+
 	private LocalDate meetingDate;
+
 	private LocalTime meetingTime;
+
 	private String timeZone;
+
 	private Integer durationMinutes;
+
 	private String virtualMeetingLink;
+
 	private String location;
+
 	private String note;
+
 	private Integer rsvpLimit;
+
 	private boolean hostVideoEnabled;
 
 	@ManyToOne
-	@JoinColumn(name = "host_id" )
+	@JoinColumn(name = "host_id")
 	private Member host;
 
 	@ManyToOne
@@ -46,19 +55,14 @@ public class Meeting {
 	private List<String> materials = new ArrayList<>();
 
 	@ManyToMany
-	@JoinTable(
-			name = "meeting_attendees",
-			joinColumns = @JoinColumn(name = "meeting_id"),
-			inverseJoinColumns = @JoinColumn(name = "member_id")
-	)
+	@JoinTable(name = "meeting_attendees", joinColumns = @JoinColumn(name = "meeting_id"),
+			inverseJoinColumns = @JoinColumn(name = "member_id"))
 	private List<Member> attendees = new ArrayList<>();
 
 	// Updated constructor to match DTO fields
-	public Meeting(String title, LocalDate meetingDate, LocalTime meetingTime,
-				   String timeZone, Integer durationMinutes, String virtualMeetingLink,
-				   String location, String note, Integer rsvpLimit,
-				   boolean hostVideoEnabled, Member host, Club club,
-				   List<String> materials) {
+	public Meeting(String title, LocalDate meetingDate, LocalTime meetingTime, String timeZone, Integer durationMinutes,
+			String virtualMeetingLink, String location, String note, Integer rsvpLimit, boolean hostVideoEnabled,
+			Member host, Club club, List<String> materials) {
 		this.title = title;
 		this.meetingDate = meetingDate;
 		this.meetingTime = meetingTime;
@@ -73,4 +77,5 @@ public class Meeting {
 		this.club = club;
 		this.materials = materials != null ? materials : new ArrayList<>();
 	}
+
 }

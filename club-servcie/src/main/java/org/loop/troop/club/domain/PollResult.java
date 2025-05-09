@@ -13,19 +13,20 @@ import java.util.UUID;
 @Setter
 abstract class PollResult {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private UUID id;
 
-    @OneToOne
-    private Poll poll;
+	@OneToOne
+	private Poll poll;
 
-    public PollResult(Poll poll) {
-        this.poll = poll;
-    }
+	public PollResult(Poll poll) {
+		this.poll = poll;
+	}
 
-    public PollResult() {
-    }
+	public PollResult() {
+	}
 
-    public abstract Class<?> getExpectedVoteType();
+	public abstract Class<?> getExpectedVoteType();
+
 }

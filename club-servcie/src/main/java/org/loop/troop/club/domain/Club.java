@@ -60,35 +60,12 @@ class Club {
 	@OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Poll> polls = new ArrayList<>();
 
-	public void addMeeting(
-			String title,
-			LocalDate meetingDate,
-			LocalTime meetingTime,
-			String timeZone,
-			int durationMinutes,
-			String virtualMeetingLink,
-			String location,
-			String note,
-			int rsvpLimit,
-			boolean hostVideoEnabled,
-			Member host,
-			List<String> materials
-	) {
-		Meeting meeting = new Meeting(
-				title,
-				meetingDate,
-				meetingTime,
-				timeZone,
-				durationMinutes,
-				virtualMeetingLink,
-				location,
-				note,
-				rsvpLimit,
-				hostVideoEnabled,
-				host,
-				this,  // Club reference
-				materials
-		);
+	public void addMeeting(String title, LocalDate meetingDate, LocalTime meetingTime, String timeZone,
+			int durationMinutes, String virtualMeetingLink, String location, String note, int rsvpLimit,
+			boolean hostVideoEnabled, Member host, List<String> materials) {
+		Meeting meeting = new Meeting(title, meetingDate, meetingTime, timeZone, durationMinutes, virtualMeetingLink,
+				location, note, rsvpLimit, hostVideoEnabled, host, this, // Club reference
+				materials);
 		meetings.add(meeting);
 	}
 

@@ -9,68 +9,69 @@ import java.util.UUID;
 @Service
 public class MeetingService {
 
-    private final MeetingRepository meetingRepository;
-    private final ClubRepository clubRepository;
-    private final MemberRepository memberRepository;
-    private final MeetingMapper meetingMapper;
+	private final MeetingRepository meetingRepository;
 
-    public MeetingService(MeetingRepository meetingRepository,
-                          ClubRepository clubRepository,
-                          MemberRepository memberRepository,
-                          MeetingMapper meetingMapper) {
-        this.meetingRepository = meetingRepository;
-        this.clubRepository = clubRepository;
-        this.memberRepository = memberRepository;
-        this.meetingMapper = meetingMapper;
-    }
+	private final ClubRepository clubRepository;
 
-    @Transactional
-    public MeetingDTO createMeeting(UUID clubId, UUID hostId, CreateMeetingDTO createMeetingDTO) {
-        // Validate club existence
-        Club club = clubRepository.findById(clubId)
-                .orElseThrow(() -> new ResourceNotFoundException("Club not found"));
+	private final MemberRepository memberRepository;
 
-        // Validate host existence and membership
-        Member host = memberRepository.findById(hostId)
-                .orElseThrow(() -> new ResourceNotFoundException("Member not found"));
+	private final MeetingMapper meetingMapper;
 
-        if (!club.getMembers().contains(host)) {
-            throw new IllegalArgumentException("Host must be a club member");
-        }
+	public MeetingService(MeetingRepository meetingRepository, ClubRepository clubRepository,
+			MemberRepository memberRepository, MeetingMapper meetingMapper) {
+		this.meetingRepository = meetingRepository;
+		this.clubRepository = clubRepository;
+		this.memberRepository = memberRepository;
+		this.meetingMapper = meetingMapper;
+	}
 
-        // Convert DTO to entity
-//        Meeting meeting = meetingMapper.toEntity(createMeetingDTO);
-        Meeting meeting = meetingMapper.toEntity(createMeetingDTO);
+	@Transactional
+	public MeetingDTO createMeeting(UUID clubId, UUID hostId, CreateMeetingDTO createMeetingDTO) {
+		// Validate club existence
+		Club club = clubRepository.findById(clubId).orElseThrow(() -> new ResourceNotFoundException("Club not found"));
 
-        // Set relationships
-        meeting.setClub(club);
-        meeting.setHost(host);
+		// Validate host existence and membership
+		Member host = memberRepository.findById(hostId)
+			.orElseThrow(() -> new ResourceNotFoundException("Member not found"));
 
-        // Save and return
-        Meeting savedMeeting = meetingRepository.save(meeting);
-        return meetingMapper.toDto(savedMeeting);
-    }
+		if (!club.getMembers().contains(host)) {
+			throw new IllegalArgumentException("Host must be a club member");
+		}
 
-    public MeetingDTO getMeeting(UUID clubId, UUID meetingId) {
-        return meetingRepository.findByClub_ClubIdAndId(clubId, meetingId)
-                .map(meetingMapper::toDto)
-                .orElseThrow(() -> new ResourceNotFoundException("Meeting not found"));
-    }
+		// Convert DTO to entity
+		// Meeting meeting = meetingMapper.toEntity(createMeetingDTO);
+		Meeting meeting = meetingMapper.toEntity(createMeetingDTO);
 
-    @Transactional
-    public MeetingDTO updateMeeting(UUID clubId, UUID meetingId, MeetingDTO meetingDTO) {
-        Meeting existingMeeting = meetingRepository.findByClub_ClubIdAndId(clubId, meetingId)
-                .orElseThrow(() -> new ResourceNotFoundException("Meeting not found"));
+		// Set relationships
+		meeting.setClub(club);
+		meeting.setHost(host);
 
-        meetingMapper.updateMeetingFromDto(meetingDTO, existingMeeting);
-        Meeting updatedMeeting = meetingRepository.save(existingMeeting);
-        return meetingMapper.toDto(updatedMeeting);
-    }
+		// Save and return
+		Meeting savedMeeting = meetingRepository.save(meeting);
+		return meetingMapper.toDto(savedMeeting);
+	}
 
-    @Transactional
-    public void deleteMeeting(UUID clubId, UUID meetingId) {
-        Meeting meeting = meetingRepository.findByClub_ClubIdAndId(clubId, meetingId)
-                .orElseThrow(() -> new ResourceNotFoundException("Meeting not found"));
-        meetingRepository.delete(meeting);
-    }
+	public MeetingDTO getMeeting(UUID clubId, UUID meetingId) {
+		return meetingRepository.findByClub_ClubIdAndId(clubId, meetingId)
+			.map(meetingMapper::toDto)
+			.orElseThrow(() -> new ResourceNotFoundException("Meeting not found"));
+	}
+
+	@Transactional
+	public MeetingDTO updateMeeting(UUID clubId, UUID meetingId, MeetingDTO meetingDTO) {
+		Meeting existingMeeting = meetingRepository.findByClub_ClubIdAndId(clubId, meetingId)
+			.orElseThrow(() -> new ResourceNotFoundException("Meeting not found"));
+
+		meetingMapper.updateMeetingFromDto(meetingDTO, existingMeeting);
+		Meeting updatedMeeting = meetingRepository.save(existingMeeting);
+		return meetingMapper.toDto(updatedMeeting);
+	}
+
+	@Transactional
+	public void deleteMeeting(UUID clubId, UUID meetingId) {
+		Meeting meeting = meetingRepository.findByClub_ClubIdAndId(clubId, meetingId)
+			.orElseThrow(() -> new ResourceNotFoundException("Meeting not found"));
+		meetingRepository.delete(meeting);
+	}
+
 }

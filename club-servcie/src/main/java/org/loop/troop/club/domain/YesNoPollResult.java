@@ -11,25 +11,30 @@ import lombok.Setter;
 @Setter
 class YesNoPollResult extends PollResult implements Votable<Boolean> {
 
-    private int yesCount;
-    private int noCount;
+	private int yesCount;
 
-    public YesNoPollResult() {}
+	private int noCount;
 
-    public YesNoPollResult(Poll poll) {
-        super(poll);
-    }
+	public YesNoPollResult() {
+	}
 
-    @Override
-    public void addVote(Boolean vote) {
-        if (vote != null) {
-            if (vote) yesCount++;
-            else noCount++;
-        }
-    }
+	public YesNoPollResult(Poll poll) {
+		super(poll);
+	}
 
-    @Override
-    public Class<?> getExpectedVoteType() {
-        return Boolean.class;
-    }
+	@Override
+	public void addVote(Boolean vote) {
+		if (vote != null) {
+			if (vote)
+				yesCount++;
+			else
+				noCount++;
+		}
+	}
+
+	@Override
+	public Class<?> getExpectedVoteType() {
+		return Boolean.class;
+	}
+
 }

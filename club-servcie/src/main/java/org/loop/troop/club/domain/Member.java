@@ -29,10 +29,12 @@ public class Member {
 	// private LocalDateTime joinedDate;
 	// private String profilePictureUrl;
 
-	public Member() {}
+	public Member() {
+	}
 
 	public Member(String name, String email) {
 		this.name = name;
 		this.email = email;
 	}
+
 }

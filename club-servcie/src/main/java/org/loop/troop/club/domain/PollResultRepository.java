@@ -8,6 +8,7 @@ import java.util.UUID;
 
 interface PollResultRepository extends JpaRepository<PollResult, UUID> {
 
-    @Query("select p from PollResult p where p.poll.pollId = ?1")
-    Optional<PollResult> findByPollResultByPollId(UUID pollId);
+	@Query("select p from PollResult p where p.poll.pollId = ?1")
+	Optional<PollResult> findByPollResultByPollId(UUID pollId);
+
 }

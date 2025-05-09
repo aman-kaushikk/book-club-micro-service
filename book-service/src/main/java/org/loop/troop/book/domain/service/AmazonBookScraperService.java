@@ -137,8 +137,9 @@ class AmazonBookScraperService extends BookScraperService {
 		if (pageCountStr != null && pageCountStr.matches("\\d+")) {
 			int pageCount = Integer.parseInt(pageCountStr);
 			bookDto.setPageCount(pageCount);
-		}else{
-			log.error("cannot fetch page count: {}",pageCountStr);
+		}
+		else {
+			log.error("cannot fetch page count: {}", pageCountStr);
 			bookDto.setPageCount(0);
 		}
 

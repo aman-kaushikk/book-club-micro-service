@@ -11,6 +11,7 @@ import java.util.UUID;
 @Repository
 interface ClubRepository extends JpaRepository<Club, UUID> {
 
-    @Query("select c from Club c inner join c.polls polls where c.clubId = ?1 and polls.pollId = ?2")
-    Optional<Poll> getPollByClubIdAndPollId(UUID clubId, UUID pollId);
+	@Query("select c from Club c inner join c.polls polls where c.clubId = ?1 and polls.pollId = ?2")
+	Optional<Poll> getPollByClubIdAndPollId(UUID clubId, UUID pollId);
+
 }
