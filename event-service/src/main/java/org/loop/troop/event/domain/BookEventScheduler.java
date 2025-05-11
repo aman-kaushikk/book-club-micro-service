@@ -21,7 +21,7 @@ import static org.loop.troop.event.domain.enums.EventProcessingStatus.PENDING;
 @Slf4j
 public class BookEventScheduler {
 
-	private final EventLogRepository eventLogRepository;
+	private final EventLogService eventLogService;
 
 	private final AmqpTemplate amqpTemplate;
 
@@ -30,20 +30,16 @@ public class BookEventScheduler {
 	private static final String SEND_MESSAGE = "Message sent: {}";
 
 	@Scheduled(cron = "*/5 * * * * *")
-	@Transactional
 	public void bookEventScheduler() {
 		log.info("Running scheduler for book  related event");
-		List<EventLog> currentEvents = eventLogRepository.findEventLogByProcessStatus(PENDING, ONGOING);
+		List<EventLog> currentEvents = eventLogService.getPendingEvent();
 		currentEvents.forEach(this::publishEvent);
 	}
 
 	@Scheduled(cron = "0 0 22 * * *")
 	public void runAtTenPM() {
-		List<EventLog> currentEvents = eventLogRepository.findAll();
-		List<EventLog> completedEvents = currentEvents.stream()
-			.filter(eventLog -> eventLog.getProcessingStatus().equals(EventProcessingStatus.COMPLETED))
-			.toList();
-		eventLogRepository.deleteAllInBatch(completedEvents);
+		List<EventLog> currentEvents = eventLogService.getCompletedEvent();
+		eventLogService.deleteEvent(currentEvents);
 	}
 
 	private void publishEvent(EventLog eventLog) {

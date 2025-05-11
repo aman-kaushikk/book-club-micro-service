@@ -24,48 +24,6 @@ info:
 spring:
   application:
     name: club-service
-
-  # ===============================
-  # PostgresSQL Configuration
-  # ===============================
-  datasource:
-    url: jdbc:postgresql://localhost:5434/event-db
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
-    hikari:
-      minimum-idle: 5
-      maximum-pool-size: 20
-      idle-timeout: 30000
-      pool-name: HikariPool-19
-
-  # ===============================
-  # Hibernate Configuration
-  # ===============================
-  jpa:
-    properties:
-      hibernate:
-        format_sql: true
-    hibernate:
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
-
-  # ===============================
-  # Pagination and Sorting Defaults
-  # ===============================
-  data:
-    web:
-      pageable:
-        default-page-size: 10
-        max-page-size: 100
-  # ===============================
-  # Flyway configuration
-  # ===============================
-  flyway:
-    enabled: true
-    baseline-on-migrate: true
-    locations: classpath:migration
   # ===============================
   # Rabbit Mq configuration
   # ===============================
@@ -83,14 +41,3 @@ spring:
           multiplier: 5.0             # for exponential backoff
           max-interval: 5000          # maximum wait between retries
         default-requeue-rejected: false
-# ===============================
-# App configuration
-# ===============================
-app:
-  rabbitmq:
-    book-exchange: book-service.exchange
-    book-service-queue: book-service.queue
-    book-service-create-routing-key: book.created
-    book-service-update-routing-key: book.updated
-    book-service-generic-routing-key: book.*
-    book-service-dead-letter-queue: book-service.dlx.queue

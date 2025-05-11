@@ -1,47 +1,44 @@
 package org.loop.troop.event.domain;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.loop.troop.event.domain.enums.EventProcessingStatus;
 import org.loop.troop.event.domain.enums.EventType;
-
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
-@Entity
-@Table(name = "event_log")
 @Getter
 @Setter
 @NoArgsConstructor
-class EventLog {
+@RedisHash("event_log")
+public class EventLog implements Serializable {
 
 	@Id
 	private UUID eventId;
 
-	@Column(nullable = false)
+	@Indexed
 	private String app;
 
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
+	@Indexed
 	private EventType eventType;
 
-	@Column(nullable = false)
+	@Indexed
 	private String routingKey;
 
-	@Column(nullable = false)
+	@Indexed
 	private String exchange;
 
-	@Lob
 	private String payload;
 
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
+	@Indexed
 	private EventProcessingStatus processingStatus;
 
 	private String errorMessage;
 
 	private LocalDateTime timestamp = LocalDateTime.now();
-
 }

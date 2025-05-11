@@ -8,7 +8,6 @@ import org.loop.troop.event.domain.enums.EventProcessingStatus;
 import org.loop.troop.event.domain.modal.EventLogDto;
 import org.loop.troop.event.web.validator.ValidEnum;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
@@ -20,44 +19,42 @@ import java.util.UUID;
 @Slf4j
 public class EventService {
 
-	private final EventLogRepository eventLogRepository;
+	private final EventLogService eventLogService;
 
 	private final EventLogMapper eventLogMapper;
 
 	public EventLogDto getEventByEventId(@NotNull(message = "{event.id.nonnull}") UUID id) {
-		EventLog eventLog = eventLogRepository.findById(id)
+		EventLog eventLog = eventLogService.findById(id)
 			.orElseThrow(() -> new ServiceException("No event found by given id: " + id));
 		return eventLogMapper.getEventDto(eventLog);
 	}
 
 	public List<EventLogDto> getEventDtoList() {
-		List<EventLog> eventLogs = eventLogRepository.findAll();
+		List<EventLog> eventLogs = eventLogService.findByAll();
 		return eventLogMapper.getEventDtoList(eventLogs);
 	}
 
-	@Transactional
 	public void saveEvent(@Valid EventLogDto eventLogDto, @NotNull(message = "{event.id.nonnull}") UUID id) {
-		if (eventLogRepository.findById(id).isPresent()) {
+		if (eventLogService.findById(id).isPresent()) {
 			throw new ServiceException("Event already register with given id: " + id);
 		}
 		EventLog event = eventLogMapper.getEvent(eventLogDto);
 		event.setEventId(id);
 		log.info("Saved event with event id: {}", event.getEventId());
-		eventLogRepository.save(event);
+		eventLogService.save(event);
 	}
 
-	@Transactional
 	public void updateEvent(@ValidEnum(enumClass = EventProcessingStatus.class) @NotNull String status,
 			@NotNull(message = "{event.id.nonnull}") UUID id,
 			String errorMessage				) {
-		EventLog eventLog = eventLogRepository.findById(id)
+		EventLog eventLog = eventLogService.findById(id)
 			.orElseThrow(() -> new ServiceException("Event already register with given id: " + id));
 		eventLog.setProcessingStatus(EventProcessingStatus.valueOf(status));
 		if(errorMessage!=null){
 			eventLog.setErrorMessage(errorMessage);
 		}
 		log.info("Update event with event id: {} to {}", eventLog.getEventId(), status);
-		eventLogRepository.save(eventLog);
+		eventLogService.save(eventLog);
 	}
 
 }
