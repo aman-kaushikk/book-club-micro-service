@@ -41,6 +41,11 @@ public class BookServiceImpl implements BookService {
 
 	private final PageMapper<Book, BookDto> pageMapper;
 
+	@Override
+	public boolean isBookPresent(String url) {
+		return bookRepository.existsByUrl(url);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */

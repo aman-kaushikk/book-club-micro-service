@@ -19,6 +19,7 @@ import java.util.UUID;
  */
 public interface BookService {
 
+	boolean isBookPresent(String url);
 	/**
 	 * Register book dto.
 	 * @param url the url

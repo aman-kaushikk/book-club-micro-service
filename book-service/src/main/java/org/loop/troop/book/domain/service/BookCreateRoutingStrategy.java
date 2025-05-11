@@ -1,22 +1,20 @@
-package org.loop.troop.book.domain;
+package org.loop.troop.book.domain.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
+import org.loop.troop.book.domain.BookService;
+import org.loop.troop.book.domain.ServiceException;
 import org.loop.troop.book.domain.enums.Vendor;
 import org.loop.troop.book.domain.modal.BookRequest;
-import org.loop.troop.book.domain.modal.EventLogDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.time.LocalDateTime;
 import java.util.Set;
-
-import static org.loop.troop.book.domain.enums.EventProcessingStatus.PENDING;
-import static org.loop.troop.book.domain.enums.EventType.BOOK_CREATE;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -31,17 +29,15 @@ class BookCreateRoutingStrategy extends BookRoutingStrategy {
 
 	private final Validator validator;
 
-	public BookCreateRoutingStrategy(Validator validator, EventLogRepository eventLogRepository,
-			EventLogMapper eventLogMapper, ObjectMapper objectMapper, BookService bookService) {
-		super(validator, eventLogRepository, eventLogMapper);
+	public BookCreateRoutingStrategy(ObjectMapper objectMapper, BookService bookService, Validator validator) {
 		this.objectMapper = objectMapper;
 		this.bookService = bookService;
 		this.validator = validator;
 	}
 
 	@Override
-	protected void execute(EventLogDto eventLogDto) {
-		String payload = eventLogDto.getPayload();
+	protected void execute(String payload, UUID eventId) {
+		log.info("Executing event with event id: {}", eventId);
 		try {
 			BookRequest bookRequest = objectMapper.readValue(payload, BookRequest.class);
 			Set<ConstraintViolation<BookRequest>> violations = validator.validate(bookRequest);
@@ -49,23 +45,15 @@ class BookCreateRoutingStrategy extends BookRoutingStrategy {
 				violations.forEach(violation -> log.error("Field violations message : {}", violation.getMessage()));
 				throw new ServiceException("Failed to valid book-request from the payload");
 			}
+			if (bookService.isBookPresent(bookRequest.getUrl())){
+				throw new ServiceException("Cannot Register book: book exists by same url");
+			}
 			bookService.register(bookRequest.getUrl(), Vendor.valueOf(bookRequest.getVendor()));
 		}
 		catch (JsonProcessingException e) {
 			log.error("Payload cannot be processed to book-request class: {}", e.getMessage());
 			throw new ServiceException("Processing payload to book-request failed");
 		}
-	}
-
-	@Override
-	EventLogDto massageToEventDto(String message) {
-		EventLogDto eventLogDto = new EventLogDto();
-		eventLogDto.setEventType(BOOK_CREATE.name());
-		eventLogDto.setPayload(message);
-		eventLogDto.setRoutingKey(supportedRoutingKey);
-		eventLogDto.setTimestamp(LocalDateTime.now());
-		eventLogDto.setProcessingStatus(PENDING.name());
-		return eventLogDto;
 	}
 
 	@Override
