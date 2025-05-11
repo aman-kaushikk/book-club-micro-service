@@ -1,14 +1,18 @@
 package org.loop.troop.book.domain;
 
+import jakarta.validation.Valid;
 import org.loop.troop.book.domain.modal.BookDto;
 import org.loop.troop.book.domain.modal.BuyLinkDto;
 import org.loop.troop.book.domain.modal.PageDto;
 import org.loop.troop.book.domain.enums.Vendor;
 import org.loop.troop.book.domain.modal.RowEffected;
+import org.loop.troop.book.domain.request.book.BookUpdateRequest;
 import org.loop.troop.book.domain.request.buylinks.*;
 import org.loop.troop.book.domain.request.club.*;
 import org.loop.troop.book.domain.request.genre.*;
 import org.loop.troop.book.domain.request.tag.*;
+import org.springframework.validation.annotation.Validated;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -17,7 +21,10 @@ import java.util.UUID;
  *
  * @author alex
  */
+@Validated
 public interface BookService {
+
+	void updateBook(@Valid BookUpdateRequest bookUpdateRequest);
 
 	boolean isBookPresent(String url);
 	/**

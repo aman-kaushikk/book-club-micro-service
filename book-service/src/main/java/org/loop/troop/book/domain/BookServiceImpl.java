@@ -1,8 +1,15 @@
 package org.loop.troop.book.domain;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.loop.troop.book.domain.modal.*;
+import org.loop.troop.book.domain.enums.BookStatus;
+import org.loop.troop.book.domain.enums.Vendor;
+import org.loop.troop.book.domain.modal.BookDto;
+import org.loop.troop.book.domain.modal.BuyLinkDto;
+import org.loop.troop.book.domain.modal.PageDto;
+import org.loop.troop.book.domain.modal.RowEffected;
+import org.loop.troop.book.domain.request.book.BookUpdateRequest;
 import org.loop.troop.book.domain.request.buylinks.AddBuyLinkRequest;
 import org.loop.troop.book.domain.request.buylinks.RemoveBuyLinkRequest;
 import org.loop.troop.book.domain.request.club.AddClubIdRequest;
@@ -12,14 +19,15 @@ import org.loop.troop.book.domain.request.genre.RemoveGenreRequest;
 import org.loop.troop.book.domain.request.tag.AddTagRequest;
 import org.loop.troop.book.domain.request.tag.RemoveTagRequest;
 import org.loop.troop.book.domain.service.BookScraperService;
-import org.loop.troop.book.domain.enums.Vendor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.annotation.Validated;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.loop.troop.book.domain.Utility.getPageable;
@@ -40,6 +48,14 @@ public class BookServiceImpl implements BookService {
 	private final BookRepository bookRepository;
 
 	private final PageMapper<Book, BookDto> pageMapper;
+
+	@Override
+	public void updateBook(BookUpdateRequest bookUpdateRequest) {
+		var book  = bookRepository.findById(bookUpdateRequest.getBookId()).orElseThrow( () -> new ServiceException("Book found with given title: " + bookUpdateRequest.getBookId()));
+		updateBookFromRequest(book,bookUpdateRequest);
+		book.setUpdatedAt(LocalDateTime.now());
+		bookRepository.save(book);
+	}
 
 	@Override
 	public boolean isBookPresent(String url) {
@@ -189,4 +205,25 @@ public class BookServiceImpl implements BookService {
 		return rowEffected(Collections.singletonList(validRequestedItems), operationType + "-item-" + operationField);
 	}
 
+	private void updateBookFromRequest(Book book, BookUpdateRequest request) {
+		if (request.getDescription() != null) {
+			book.setDescription(request.getDescription());
+		}
+
+		if (request.getPageCount() != null) {
+			book.setPageCount(request.getPageCount());
+		}
+
+		if (request.getRating() != null) {
+			book.setRating(request.getRating());
+		}
+
+		if (request.getBookmarked() != null) {
+			book.setBookmarked(request.getBookmarked());
+		}
+
+		if (request.getBookStatus() != null) {
+			book.setBookStatus(BookStatus.valueOf(request.getBookStatus()));
+		}
+	}
 }

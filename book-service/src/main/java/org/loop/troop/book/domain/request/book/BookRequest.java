@@ -1,4 +1,4 @@
-package org.loop.troop.book.domain.modal;
+package org.loop.troop.book.domain.request.book;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

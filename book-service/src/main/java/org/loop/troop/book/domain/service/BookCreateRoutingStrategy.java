@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.loop.troop.book.domain.BookService;
 import org.loop.troop.book.domain.ServiceException;
 import org.loop.troop.book.domain.enums.Vendor;
-import org.loop.troop.book.domain.modal.BookRequest;
+import org.loop.troop.book.domain.request.book.BookRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -40,14 +40,6 @@ class BookCreateRoutingStrategy extends BookRoutingStrategy {
 		log.info("Executing event with event id: {}", eventId);
 		try {
 			BookRequest bookRequest = objectMapper.readValue(payload, BookRequest.class);
-			Set<ConstraintViolation<BookRequest>> violations = validator.validate(bookRequest);
-			if (!violations.isEmpty()) {
-				violations.forEach(violation -> log.error("Field violations message : {}", violation.getMessage()));
-				throw new ServiceException("Failed to valid book-request from the payload");
-			}
-			if (bookService.isBookPresent(bookRequest.getUrl())){
-				throw new ServiceException("Cannot Register book: book exists by same url");
-			}
 			bookService.register(bookRequest.getUrl(), Vendor.valueOf(bookRequest.getVendor()));
 		}
 		catch (JsonProcessingException e) {
@@ -60,9 +52,16 @@ class BookCreateRoutingStrategy extends BookRoutingStrategy {
 	protected boolean validatePayload(String payload) {
 		Assert.notNull(payload, "Payload is mandatory to valid");
 		try {
-			objectMapper.readValue(payload, BookRequest.class);
-		}
-		catch (JsonProcessingException e) {
+			BookRequest bookRequest = objectMapper.readValue(payload, BookRequest.class);
+			Set<ConstraintViolation<BookRequest>> violations = validator.validate(bookRequest);
+			if (!violations.isEmpty()) {
+				violations.forEach(violation -> log.error("Field violations message : {}", violation.getMessage()));
+				throw new ServiceException("Failed to valid book-request from the payload");
+			}
+			if (bookService.isBookPresent(bookRequest.getUrl())){
+				throw new ServiceException("Cannot Register book: book exists by same url");
+			}
+		} catch (JsonProcessingException e) {
 			log.info("Payload cannot be processed to book-request class: {}", e.getMessage());
 			return false;
 		}

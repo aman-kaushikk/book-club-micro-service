@@ -1,4 +1,4 @@
-package org.loop.troop.book.domain.modal;
+package org.loop.troop.book.domain.request.review;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
+import org.loop.troop.book.domain.modal.ReviewDto;
 
 import java.util.UUID;
 

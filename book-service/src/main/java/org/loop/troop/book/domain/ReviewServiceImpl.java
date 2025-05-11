@@ -3,7 +3,7 @@ package org.loop.troop.book.domain;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.loop.troop.book.domain.modal.CreateNewReview;
+import org.loop.troop.book.domain.request.review.CreateNewReview;
 import org.loop.troop.book.domain.modal.PageDto;
 import org.loop.troop.book.domain.modal.ReviewDto;
 import org.springframework.cache.annotation.Cacheable;
