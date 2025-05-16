@@ -1,23 +1,25 @@
-import Navbar from '@/components/nav-bar'
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-import navlogo from "@/assets/nav-logo.svg"
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { AppSidebar } from '@/components/app-sidebar'
+
+
+
 export const Route = createRootRoute({
   component: () => (
     <>
-      <Header />
-      <Outlet />
-      <footer>footer</footer>
-      <TanStackRouterDevtools />
+        <SidebarProvider>
+          <AppSidebar
+            authenticated={true}
+            clubNames={['Reader Club']}
+            username="vivek"
+          />
+          <main className='flex-1 relative bg-'>
+            <SidebarTrigger size="lg"/>
+            <Outlet/>
+          </main>
+        </SidebarProvider>
+      <TanStackRouterDevtools position="top-right" />
     </>
   ),
 })
-
-const Header = () => {
-  return (
-    <header>
-      <img src={navlogo} alt='Naviation logo'></img>
-      <Navbar authenticated={true} clubNames={["reader club"]}/>
-    </header>
-  )
-}
