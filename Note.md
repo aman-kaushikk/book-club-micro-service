@@ -12,7 +12,7 @@ Generate Java jar with java doc
 ```
 Redis connect and monitor - run inside docker container
 ```shell
-redis-cli -h redis -p 6379 -a passwor
+redis-cli -h redis -p 6379 -a password
 # monitor command
 monitor 
 ```

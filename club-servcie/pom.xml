@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.loop.troop</groupId>
-	<artifactId>club-servcie</artifactId>
+	<artifactId>club-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>club-service</name>
 	<description>Club service </description>
@@ -149,7 +149,6 @@
 					<to>
 						<image>${dockerImageName}</image>
 						<tags>
-							<tag>1.0.0</tag>
 							<tag>${project.version}</tag>
 						</tags>
 					</to>
