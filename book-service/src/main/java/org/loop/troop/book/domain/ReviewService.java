@@ -1,6 +1,6 @@
 package org.loop.troop.book.domain;
 
-import org.loop.troop.book.domain.modal.CreateNewReview;
+import org.loop.troop.book.domain.request.review.CreateNewReview;
 import org.loop.troop.book.domain.modal.PageDto;
 import org.loop.troop.book.domain.modal.ReviewDto;
 

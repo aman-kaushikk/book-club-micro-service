@@ -115,7 +115,7 @@ class ExceptionHandlerDSL {
 	}
 
 	/**
-	 * Create problem detail problem detail.
+	 * Create problem detail.
 	 * @param status the status
 	 * @param message the message
 	 * @param ex the ex

@@ -2,6 +2,7 @@ package org.loop.troop.book.web;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.ConstraintViolationException;
+import org.loop.troop.book.domain.CustomHttpClientException;
 import org.loop.troop.book.domain.ServiceException;
 import org.loop.troop.book.domain.UrlScrapingException;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,8 @@ public class ExceptionAdvice {
 			handler.on(ServiceException.class).respondWithStatus(HttpStatus.BAD_REQUEST);
 			// handling scraping exception
 			handler.on(UrlScrapingException.class).respondWithStatus(HttpStatus.BAD_GATEWAY);
+			// handling custom client exception
+			handler.on(CustomHttpClientException.class).respondWith(ExceptionAdvice::customHttpClientExceptionResponse);
 			// handling jakarta validation
 			handler.on(MethodArgumentNotValidException.class)
 				.respondWith(ExceptionAdvice::methodArgumentNotValidException);
@@ -51,6 +54,16 @@ public class ExceptionAdvice {
 			// handling default exception
 			handler.defaultResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
 		});
+	}
+
+	private static ProblemDetail customHttpClientExceptionResponse(Throwable throwable) {
+		if (throwable instanceof CustomHttpClientException customHttpClientException) {
+			return ProblemDetail.forStatusAndDetail(customHttpClientException.getStatus(),
+					customHttpClientException.getResponseBody());
+		}
+		else {
+			return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, throwable.getMessage());
+		}
 	}
 
 	private static ProblemDetail methodArgumentNotValidException(Throwable throwable) {

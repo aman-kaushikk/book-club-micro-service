@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.loop.troop.book.domain.BookService;
 import org.loop.troop.book.domain.ServiceException;
 import org.loop.troop.book.domain.Utility;
-import org.loop.troop.book.domain.modal.BookRequest;
+import org.loop.troop.book.domain.request.book.BookRequest;
 import org.loop.troop.book.domain.modal.BuyLinkDto;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

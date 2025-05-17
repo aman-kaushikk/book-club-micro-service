@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: club-service-db
+  namespace: book-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: club-service-db
+  template:
+    metadata:
+      labels:
+        app: club-service-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:17-alpine
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_DB
+              value: club-db
+          ports:
+            - containerPort: 5432
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "0.5"
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: club-postgres-pvc

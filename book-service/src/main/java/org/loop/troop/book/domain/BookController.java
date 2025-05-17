@@ -1,5 +1,6 @@
 package org.loop.troop.book.domain;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
@@ -7,6 +8,8 @@ import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import org.loop.troop.book.domain.enums.Vendor;
 import org.loop.troop.book.domain.modal.*;
+import org.loop.troop.book.domain.request.book.BookRequest;
+import org.loop.troop.book.domain.request.book.BookUpdateRequest;
 import org.loop.troop.book.domain.request.buylinks.*;
 import org.loop.troop.book.domain.request.club.*;
 import org.loop.troop.book.domain.request.genre.*;
@@ -40,10 +43,21 @@ class BookController {
 	 * @return the response entity
 	 */
 	@PostMapping("/register")
-	ResponseEntity<String> registerNewBook(@RequestBody @Valid BookRequest bookRequest) {
+	ResponseEntity<GenericResponseDto> registerNewBook(@RequestBody BookRequest bookRequest,
+			HttpServletRequest request) {
+		UUID eventId = UUID.randomUUID();
+		bookQueueProducer.sendBookCreatedMessage(bookRequest, eventId);
+		return buildResponse(CREATED, "Book creation is progress, check: " + eventId, request.getRequestURI(),
+				eventId.toString());
+	}
+
+	@PostMapping("/update/{id}")
+	ResponseEntity<GenericResponseDto> registerNewBook(@PathVariable UUID id,
+			@RequestBody BookUpdateRequest bookUpdateRequest, HttpServletRequest request) {
 		UUID uuid = UUID.randomUUID();
-		bookQueueProducer.sendBookCreatedMessage(bookRequest, uuid);
-		return ResponseEntity.status(CREATED).body(uuid.toString());
+		bookUpdateRequest.setBookId(id);
+		bookQueueProducer.sendBookUpdatedMessage(bookUpdateRequest, uuid);
+		return buildResponse(CREATED, "Book is updated with given id" + id, request.getRequestURI(), uuid.toString());
 	}
 
 	/**
@@ -73,14 +87,7 @@ class BookController {
 		return ResponseEntity.status(OK).body(allBook);
 	}
 
-	@RequestMapping("/update/event")
-	public ResponseEntity<Void> updateBook(@RequestParam("message") String message) {
-		bookQueueProducer.sendBookUpdatedMessage(message);
-		return ResponseEntity.ok().build();
-	}
-
 	// -------------------------------------------------- Additional Endpoints
-	// -----------------------------------
 
 	// Add Buy Link
 	@PostMapping("/{bookId}/add-buy-link")
@@ -155,6 +162,15 @@ class BookController {
 	}
 
 	// Helper method for building response
+
+	private ResponseEntity<GenericResponseDto> buildResponse(HttpStatus status, String message, String path,
+			String data) {
+		GenericResponseDto response = new GenericResponseDto(status, message, path);
+		response.setData(data);
+		response.setRowCount(1);
+		return ResponseEntity.status(status).body(response);
+	}
+
 	private ResponseEntity<GenericResponseDto> buildResponse(HttpStatus status, String message, UUID bookId,
 			RowEffected rowEffected) {
 		GenericResponseDto response = new GenericResponseDto(status, message, "/api/books/" + bookId);

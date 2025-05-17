@@ -14,7 +14,7 @@ on:
       - reopened
 
 jobs:
-  build-bookmarker-api:
+  build-club-service-api:
     name: Build Club Service
     runs-on: ubuntu-latest
     defaults:

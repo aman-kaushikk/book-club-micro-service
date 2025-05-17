@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-service
+  namespace: book-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: event-service
+  template:
+    metadata:
+      labels:
+        app: event-service
+    spec:
+      containers:
+        - name: club-service
+          image: alexmercer1234556789/event-service
+          ports:
+            - containerPort: 4003
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker

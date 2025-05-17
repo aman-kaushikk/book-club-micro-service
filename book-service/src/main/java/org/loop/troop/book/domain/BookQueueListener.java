@@ -2,7 +2,8 @@ package org.loop.troop.book.domain;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.loop.troop.book.domain.modal.EventLogDto;
+import org.loop.troop.book.domain.enums.EventProcessingStatus;
+import org.loop.troop.book.domain.service.BookRoutingStrategy;
 import org.loop.troop.book.web.AppConfig;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -23,7 +24,7 @@ public class BookQueueListener {
 
 	private final List<BookRoutingStrategy> bookRoutingStrategies;
 
-	private final EventLogMapper eventLogMapper;
+	private final BookServiceEventClient bookServiceEventClient;
 
 	private static final String EVENT_ID = "event-id";
 
@@ -32,17 +33,27 @@ public class BookQueueListener {
 	@RabbitListener(queues = "#{appConfig.getRabbitmq().getBookQueue()}")
 	public void listenToBookQueue(Message message, @Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey,
 			@Header(EVENT_ID) UUID eventId, @Header(APP) String app) {
-		String actualMessage = new String(message.getBody());
-		log.info("Received message: {}", actualMessage);
+		String payload = new String(message.getBody());
+		log.info("Received message: {}", payload);
 		log.info("Routing Key: {}", routingKey);
 		log.info("Header eventId: {}", eventId);
 		log.info("Header app: {}", app);
 
 		for (var bookRoutingStrategy : bookRoutingStrategies) {
 			if (bookRoutingStrategy.supportRoutingKey(routingKey)) {
-				log.info("Book Strategy matched: {}", bookRoutingStrategy.name());
-				EventLogDto eventLogDto = bookRoutingStrategy.process(actualMessage, eventId);
-				log.info("payload in listener: {}", eventLogDto.getPayload());
+				try {
+					log.info("Book Strategy matched: {}", bookRoutingStrategy.name());
+					bookRoutingStrategy.process(payload, eventId);
+					log.info("payload in listener: {}", payload);
+					bookServiceEventClient.updateBookProcessingStatus(eventId, EventProcessingStatus.COMPLETED.name(),
+							null);
+				}
+				catch (Exception e) {
+					bookServiceEventClient.updateBookProcessingStatus(eventId, EventProcessingStatus.ERROR.name(),
+							e.getMessage());
+					log.info("Error while processing event: {}", e.getMessage());
+					throw new ServiceException("Error while processing event with event id: " + eventId);
+				}
 				return;
 			}
 		}

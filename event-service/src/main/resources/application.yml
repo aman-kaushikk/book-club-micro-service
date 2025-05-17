@@ -1,0 +1,43 @@
+# ===============================
+# Actuator Configuration
+# ===============================
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,env,beans,loggers
+  endpoint:
+    health:
+      show-details: always
+  health:
+    db:
+      enabled: true
+info:
+  app:
+    name: event service
+    version: 1.0.0
+    description: event service
+
+# ===============================
+# Application Name
+# ===============================
+spring:
+  application:
+    name: club-service
+  # ===============================
+  # Rabbit Mq configuration
+  # ===============================
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+    listener:
+      simple:
+        retry:
+          enabled: true
+          max-attempts: 2
+          initial-interval: 500       # milliseconds
+          multiplier: 5.0             # for exponential backoff
+          max-interval: 5000          # maximum wait between retries
+        default-requeue-rejected: false

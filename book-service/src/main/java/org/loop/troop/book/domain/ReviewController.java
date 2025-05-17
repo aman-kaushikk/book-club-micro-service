@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
-import org.loop.troop.book.domain.modal.CreateNewReview;
+import org.loop.troop.book.domain.request.review.CreateNewReview;
 import org.loop.troop.book.domain.modal.PageDto;
 import org.loop.troop.book.domain.modal.ReviewDto;
 import org.springframework.http.ResponseEntity;

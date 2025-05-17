@@ -18,6 +18,8 @@ import java.util.UUID;
 @Repository
 interface BookRepository extends JpaRepository<Book, UUID> {
 
+	boolean existsByUrl(String url);
+
 	/**
 	 * Exists by title boolean.
 	 * @param title the title
