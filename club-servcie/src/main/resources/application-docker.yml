@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://club-service-db:5432/club-db
+    username: postgres
+    password: postgres
+server:
+  port: 4002

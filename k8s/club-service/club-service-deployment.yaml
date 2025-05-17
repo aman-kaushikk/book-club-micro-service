@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: club-service
+  namespace: book-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: club-service
+  template:
+    metadata:
+      labels:
+        app: club-service
+    spec:
+      containers:
+        - name: club-service
+          image: alexmercer1234556789/club-service
+          ports:
+            - containerPort: 4002
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker
