@@ -43,18 +43,21 @@ class BookController {
 	 * @return the response entity
 	 */
 	@PostMapping("/register")
-	ResponseEntity<GenericResponseDto> registerNewBook(@RequestBody BookRequest bookRequest, HttpServletRequest request) {
+	ResponseEntity<GenericResponseDto> registerNewBook(@RequestBody BookRequest bookRequest,
+			HttpServletRequest request) {
 		UUID eventId = UUID.randomUUID();
 		bookQueueProducer.sendBookCreatedMessage(bookRequest, eventId);
-		return buildResponse(CREATED,"Book creation is progress, check: "+eventId,request.getRequestURI(),eventId.toString());
+		return buildResponse(CREATED, "Book creation is progress, check: " + eventId, request.getRequestURI(),
+				eventId.toString());
 	}
 
 	@PostMapping("/update/{id}")
-	ResponseEntity<GenericResponseDto> registerNewBook(@PathVariable UUID id,@RequestBody BookUpdateRequest bookUpdateRequest,HttpServletRequest request) {
+	ResponseEntity<GenericResponseDto> registerNewBook(@PathVariable UUID id,
+			@RequestBody BookUpdateRequest bookUpdateRequest, HttpServletRequest request) {
 		UUID uuid = UUID.randomUUID();
 		bookUpdateRequest.setBookId(id);
-		bookQueueProducer.sendBookUpdatedMessage(bookUpdateRequest,uuid );
-		return buildResponse(CREATED,"Book is updated with given id" + id,request.getRequestURI(),uuid.toString());
+		bookQueueProducer.sendBookUpdatedMessage(bookUpdateRequest, uuid);
+		return buildResponse(CREATED, "Book is updated with given id" + id, request.getRequestURI(), uuid.toString());
 	}
 
 	/**
@@ -160,12 +163,14 @@ class BookController {
 
 	// Helper method for building response
 
-	private ResponseEntity<GenericResponseDto> buildResponse(HttpStatus status, String message, String path,String data) {
+	private ResponseEntity<GenericResponseDto> buildResponse(HttpStatus status, String message, String path,
+			String data) {
 		GenericResponseDto response = new GenericResponseDto(status, message, path);
 		response.setData(data);
 		response.setRowCount(1);
 		return ResponseEntity.status(status).body(response);
 	}
+
 	private ResponseEntity<GenericResponseDto> buildResponse(HttpStatus status, String message, UUID bookId,
 			RowEffected rowEffected) {
 		GenericResponseDto response = new GenericResponseDto(status, message, "/api/books/" + bookId);

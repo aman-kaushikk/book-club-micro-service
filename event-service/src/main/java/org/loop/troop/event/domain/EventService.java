@@ -45,12 +45,11 @@ public class EventService {
 	}
 
 	public void updateEvent(@ValidEnum(enumClass = EventProcessingStatus.class) @NotNull String status,
-			@NotNull(message = "{event.id.nonnull}") UUID id,
-			String errorMessage				) {
+			@NotNull(message = "{event.id.nonnull}") UUID id, String errorMessage) {
 		EventLog eventLog = eventLogService.findById(id)
 			.orElseThrow(() -> new ServiceException("Event already register with given id: " + id));
 		eventLog.setProcessingStatus(EventProcessingStatus.valueOf(status));
-		if(errorMessage!=null){
+		if (errorMessage != null) {
 			eventLog.setErrorMessage(errorMessage);
 		}
 		log.info("Update event with event id: {} to {}", eventLog.getEventId(), status);

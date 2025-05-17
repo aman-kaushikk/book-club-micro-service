@@ -10,15 +10,22 @@ import java.util.UUID;
 
 @Data
 public class BookUpdateRequest {
-    @NotNull
-    private UUID bookId;
-    private String description;
-    @PositiveOrZero
-    private Integer pageCount;
-    @PositiveOrZero
-    private Double rating;
-    @PositiveOrZero
-    private Integer bookmarked;
-    @ValidEnum(enumClass = BookStatus.class, message = "{book.status.match}")
-    private String bookStatus;
+
+	@NotNull
+	private UUID bookId;
+
+	private String description;
+
+	@PositiveOrZero
+	private Integer pageCount;
+
+	@PositiveOrZero
+	private Double rating;
+
+	@PositiveOrZero
+	private Integer bookmarked;
+
+	@ValidEnum(enumClass = BookStatus.class, message = "{book.status.match}")
+	private String bookStatus;
+
 }

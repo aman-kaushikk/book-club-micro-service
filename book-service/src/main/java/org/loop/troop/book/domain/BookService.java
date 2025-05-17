@@ -27,6 +27,7 @@ public interface BookService {
 	void updateBook(@Valid BookUpdateRequest bookUpdateRequest);
 
 	boolean isBookPresent(String url);
+
 	/**
 	 * Register book dto.
 	 * @param url the url

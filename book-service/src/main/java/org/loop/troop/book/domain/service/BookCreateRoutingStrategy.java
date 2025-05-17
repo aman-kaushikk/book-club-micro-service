@@ -58,10 +58,11 @@ class BookCreateRoutingStrategy extends BookRoutingStrategy {
 				violations.forEach(violation -> log.error("Field violations message : {}", violation.getMessage()));
 				throw new ServiceException("Failed to valid book-request from the payload");
 			}
-			if (bookService.isBookPresent(bookRequest.getUrl())){
+			if (bookService.isBookPresent(bookRequest.getUrl())) {
 				throw new ServiceException("Cannot Register book: book exists by same url");
 			}
-		} catch (JsonProcessingException e) {
+		}
+		catch (JsonProcessingException e) {
 			log.info("Payload cannot be processed to book-request class: {}", e.getMessage());
 			return false;
 		}

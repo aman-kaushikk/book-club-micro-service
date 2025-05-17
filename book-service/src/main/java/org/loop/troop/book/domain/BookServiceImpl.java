@@ -51,8 +51,9 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public void updateBook(BookUpdateRequest bookUpdateRequest) {
-		var book  = bookRepository.findById(bookUpdateRequest.getBookId()).orElseThrow( () -> new ServiceException("Book found with given title: " + bookUpdateRequest.getBookId()));
-		updateBookFromRequest(book,bookUpdateRequest);
+		var book = bookRepository.findById(bookUpdateRequest.getBookId())
+			.orElseThrow(() -> new ServiceException("Book found with given title: " + bookUpdateRequest.getBookId()));
+		updateBookFromRequest(book, bookUpdateRequest);
 		book.setUpdatedAt(LocalDateTime.now());
 		bookRepository.save(book);
 	}
@@ -226,4 +227,5 @@ public class BookServiceImpl implements BookService {
 			book.setBookStatus(BookStatus.valueOf(request.getBookStatus()));
 		}
 	}
+
 }

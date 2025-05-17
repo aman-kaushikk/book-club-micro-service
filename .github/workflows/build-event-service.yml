@@ -1,45 +1,54 @@
-name: Build Club Service
+name: Build event Service
 
 on:
   push:
     paths:
-      - "club-service/**"
+      - "event-service/**"
     branches: [ "main" ]
   pull_request:
     paths:
-      - "club-service/**"
+      - "event-service/**"
     types:
       - opened
       - synchronize
       - reopened
 
 jobs:
-  build-club-service-api:
-    name: Build Club Service
+  build-event-service-api:
+    name: Build event Service
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./club-service
+        working-directory: ./event-service
 
     services:
-      postgres:
-        image: postgres:17-alpine
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: club-db
+      redis:
+        image: redis:7-alpine
         ports:
-          - 5432:5432
+          - 6379:6379
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      rabbitmq:
+        image: rabbitmq:3-management
+        env:
+          RABBITMQ_DEFAULT_USER: admin
+          RABBITMQ_DEFAULT_PASS: admin
+        ports:
+          - "5672:5672"
+          - "15672:15672"
+        options: >-
+          --health-cmd "rabbitmq-diagnostics -q ping"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
 
     env:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/club-db
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_REDIS_HOST: localhost
+      SPRING_REDIS_PORT: 6379
     steps:
       - uses: actions/checkout@v4
 
@@ -61,5 +70,5 @@ jobs:
         name: Build and Publish Docker Image
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=${{ secrets.DOCKER_USERNAME }}/club-service
-          docker push ${{ secrets.DOCKER_USERNAME }}/club-service
+          ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=${{ secrets.DOCKER_USERNAME }}/event-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/event-service

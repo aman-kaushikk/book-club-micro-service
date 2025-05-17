@@ -10,6 +10,12 @@ Generate Java jar with java doc
 ```shell
 ./mvnw clean install javadoc:javadoc -DskipTests
 ```
+
+## Go to spring boot project and build the docker image
+```bash
+.\mvnw clean install -DskipTests jib:build -X
+```
+
 Redis connect and monitor - run inside docker container
 ```shell
 redis-cli -h redis -p 6379 -a password

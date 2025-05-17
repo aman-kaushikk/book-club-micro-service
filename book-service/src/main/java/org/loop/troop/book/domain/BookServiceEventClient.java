@@ -21,6 +21,7 @@ public interface BookServiceEventClient {
 	void saveBookRegisterEvent(@PathVariable("id") UUID id, @RequestBody EventLogDto eventLogDto);
 
 	@PutExchange("/update/{id}")
-	void updateBookProcessingStatus(@PathVariable("id") UUID id, @RequestParam("status") String status,@RequestParam(name = "error-message",required = false) String errorMessage);
+	void updateBookProcessingStatus(@PathVariable("id") UUID id, @RequestParam("status") String status,
+			@RequestParam(name = "error-message", required = false) String errorMessage);
 
 }

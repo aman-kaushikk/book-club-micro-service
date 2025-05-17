@@ -11,4 +11,5 @@ import java.util.UUID;
 interface EventLogRepository extends CrudRepository<EventLog, UUID> {
 
 	List<EventLog> findByProcessingStatus(EventProcessingStatus status);
+
 }

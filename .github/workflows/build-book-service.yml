@@ -14,7 +14,7 @@ on:
       - reopened
 
 jobs:
-  build-bookmarker-api:
+  build-book-service-api:
     name: Build Book Service
     runs-on: ubuntu-latest
     defaults:

@@ -33,8 +33,9 @@ public class EventController {
 	}
 
 	@PutMapping("/update/{id}")
-	void updateEventStatus(@PathVariable("id") UUID eventId, @RequestParam("status") String status,@RequestParam(name = "error-message",required = false) String errorMessage) {
-		eventService.updateEvent(status, eventId,errorMessage);
+	void updateEventStatus(@PathVariable("id") UUID eventId, @RequestParam("status") String status,
+			@RequestParam(name = "error-message", required = false) String errorMessage) {
+		eventService.updateEvent(status, eventId, errorMessage);
 	}
 
 	@PostMapping("/register/{id}")

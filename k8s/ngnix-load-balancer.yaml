@@ -24,3 +24,10 @@ spec:
                 name: club-service
                 port:
                   number: 4002
+          - path:  /event-service(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: event-service
+                port:
+                  number: 4003

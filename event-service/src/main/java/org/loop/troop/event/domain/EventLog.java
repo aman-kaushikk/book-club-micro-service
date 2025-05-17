@@ -41,4 +41,5 @@ public class EventLog implements Serializable {
 	private String errorMessage;
 
 	private LocalDateTime timestamp = LocalDateTime.now();
+
 }

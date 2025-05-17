@@ -45,10 +45,12 @@ public class BookQueueListener {
 					log.info("Book Strategy matched: {}", bookRoutingStrategy.name());
 					bookRoutingStrategy.process(payload, eventId);
 					log.info("payload in listener: {}", payload);
-					bookServiceEventClient.updateBookProcessingStatus(eventId, EventProcessingStatus.COMPLETED.name(),null);
+					bookServiceEventClient.updateBookProcessingStatus(eventId, EventProcessingStatus.COMPLETED.name(),
+							null);
 				}
 				catch (Exception e) {
-					bookServiceEventClient.updateBookProcessingStatus(eventId, EventProcessingStatus.ERROR.name(),e.getMessage());
+					bookServiceEventClient.updateBookProcessingStatus(eventId, EventProcessingStatus.ERROR.name(),
+							e.getMessage());
 					log.info("Error while processing event: {}", e.getMessage());
 					throw new ServiceException("Error while processing event with event id: " + eventId);
 				}
